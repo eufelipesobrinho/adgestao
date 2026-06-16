@@ -7,6 +7,7 @@ import {
   Trash2,
 } from "lucide-react"
 import { formatCurrency } from "@/lib/dates"
+import { getCurrencyColorClass } from "@/lib/finance-ui"
 import { staggerDelay } from "@/lib/motion"
 import type { DepartamentoComMetricas } from "@/types/departamento"
 import { Button } from "@/components/ui/button"
@@ -76,21 +77,25 @@ export function DepartamentoCard({
           </p>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg bg-green-50/80 p-3">
-              <div className="flex items-center gap-1.5 text-xs font-medium text-green-700">
+            <div className="rounded-lg bg-emerald-50/80 p-3">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700">
                 <ArrowUpRight className="h-3.5 w-3.5" />
                 Total Arrecadado
               </div>
-              <p className="mt-1 text-sm font-bold text-green-800">
+              <p
+                className={`mt-1 text-sm font-bold ${getCurrencyColorClass("entrada")}`}
+              >
                 {formatCurrency(departamento.totalArrecadado)}
               </p>
             </div>
             <div className="rounded-lg bg-red-50/80 p-3">
-              <div className="flex items-center gap-1.5 text-xs font-medium text-red-700">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-red-600">
                 <ArrowDownRight className="h-3.5 w-3.5" />
                 Total Saídas
               </div>
-              <p className="mt-1 text-sm font-bold text-red-800">
+              <p
+                className={`mt-1 text-sm font-bold ${getCurrencyColorClass("saida")}`}
+              >
                 {formatCurrency(departamento.totalSaidas)}
               </p>
             </div>

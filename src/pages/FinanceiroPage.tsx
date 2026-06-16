@@ -8,6 +8,8 @@ import type { Transacao } from "@/types/transacao"
 import { AddEntradaSheet } from "@/components/financeiro/AddEntradaSheet"
 import { AddSaidaSheet } from "@/components/financeiro/AddSaidaSheet"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
+import { TransacaoDestinoBadge } from "@/components/financeiro/TransacaoDestinoBadge"
+import { getCurrencyColorClass } from "@/lib/finance-ui"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -99,7 +101,7 @@ export function FinanceiroPage() {
               {isLoading ? (
                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
               ) : (
-                <p className="text-2xl font-bold text-green-600">
+                <p className={`text-2xl font-bold ${getCurrencyColorClass("entrada")}`}>
                   {formatCurrency(totalEntradas)}
                 </p>
               )}
@@ -117,7 +119,7 @@ export function FinanceiroPage() {
               {isLoading ? (
                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
               ) : (
-                <p className="text-2xl font-bold text-red-600">
+                <p className={`text-2xl font-bold ${getCurrencyColorClass("saida")}`}>
                   {formatCurrency(totalSaidas)}
                 </p>
               )}
@@ -146,8 +148,8 @@ export function FinanceiroPage() {
                   <TableRow>
                     <TableHead>Descrição</TableHead>
                     <TableHead>Tipo</TableHead>
+                    <TableHead>Destino</TableHead>
                     <TableHead>Membro</TableHead>
-                    <TableHead>Departamento</TableHead>
                     <TableHead className="text-right">Valor</TableHead>
                     <TableHead className="text-right">Data</TableHead>
                   </TableRow>
@@ -167,14 +169,14 @@ export function FinanceiroPage() {
                           {transacao.tipo}
                         </Badge>
                       </TableCell>
+                      <TableCell>
+                        <TransacaoDestinoBadge transacao={transacao} />
+                      </TableCell>
                       <TableCell>{transacao.membros?.nome ?? "—"}</TableCell>
-                      <TableCell>{transacao.departamentos?.nome ?? "—"}</TableCell>
                       <TableCell
-                        className={`text-right font-medium ${
-                          transacao.tipo === "Entrada"
-                            ? "text-green-600"
-                            : "text-red-600"
-                        }`}
+                        className={`text-right font-medium ${getCurrencyColorClass(
+                          transacao.tipo === "Entrada" ? "entrada" : "saida"
+                        )}`}
                       >
                         {transacao.tipo === "Entrada" ? "+" : "-"}
                         {formatCurrency(Number(transacao.valor))}

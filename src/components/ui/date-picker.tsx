@@ -87,7 +87,7 @@ export function DatePicker({
             disabled={disabled}
           >
             <SelectTrigger className="bg-white">
-              <SelectValue placeholder="DD" />
+              <SelectValue placeholder="Dia" />
             </SelectTrigger>
             <SelectContent>
               {dayOptions.map((option) => (
@@ -127,7 +127,7 @@ export function DatePicker({
             disabled={disabled}
           >
             <SelectTrigger className="bg-white">
-              <SelectValue placeholder="AAAA" />
+              <SelectValue placeholder="Ano" />
             </SelectTrigger>
             <SelectContent className="max-h-56">
               {yearOptions.map((option) => (

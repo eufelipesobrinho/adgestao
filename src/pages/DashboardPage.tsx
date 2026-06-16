@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner"
 import { getSupabaseErrorMessage } from "@/lib/errors"
 import { formatCurrency, formatDateBR } from "@/lib/dates"
+import { getCurrencyColorClass } from "@/lib/finance-ui"
 import {
   fetchDashboardStats,
   type DashboardStats,
@@ -79,6 +80,7 @@ export function DashboardPage() {
       title: "Membros Ativos",
       value: stats ? String(stats.membrosAtivos) : "—",
       subtitle: undefined,
+      valueClassName: "text-slate-900",
       icon: Users,
       iconColor: "text-blue-600",
       iconBg: "bg-blue-50",
@@ -86,23 +88,28 @@ export function DashboardPage() {
     {
       title: "Entradas do Mês",
       value: stats ? formatCurrency(stats.entradasMes) : "—",
-      subtitle: "Dízimos & Ofertas",
+      subtitle: "Caixa Geral · Dízimos & Ofertas",
+      valueClassName: getCurrencyColorClass("entrada"),
       icon: ArrowUpRight,
-      iconColor: "text-green-600",
-      iconBg: "bg-green-50",
+      iconColor: "text-emerald-600",
+      iconBg: "bg-emerald-50",
     },
     {
       title: "Saídas do Mês",
       value: stats ? formatCurrency(stats.saidasMes) : "—",
-      subtitle: "Despesas operacionais",
+      subtitle: "Caixa Geral · Despesas operacionais",
+      valueClassName: getCurrencyColorClass("saida"),
       icon: ArrowDownRight,
-      iconColor: "text-red-600",
+      iconColor: "text-red-500",
       iconBg: "bg-red-50",
     },
     {
       title: "Saldo Atual",
       value: stats ? formatCurrency(stats.saldoAtual) : "—",
-      subtitle: "Atualizado hoje",
+      subtitle: "Caixa Geral · Atualizado hoje",
+      valueClassName: stats
+        ? getCurrencyColorClass("saldo", stats.saldoAtual)
+        : "text-slate-900",
       icon: Landmark,
       iconColor: "text-amber-600",
       iconBg: "bg-amber-50",
@@ -164,7 +171,9 @@ export function DashboardPage() {
                   <CardSkeleton />
                 ) : (
                   <>
-                    <p className="text-2xl font-bold text-slate-900">{card.value}</p>
+                    <p className={`text-2xl font-bold ${card.valueClassName}`}>
+                      {card.value}
+                    </p>
                     {card.subtitle && (
                       <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
                     )}
@@ -208,11 +217,9 @@ export function DashboardPage() {
                       </TableCell>
                       <TableCell>{activity.tipo}</TableCell>
                       <TableCell
-                        className={`text-right font-medium ${
-                          activity.tipo === "Entrada"
-                            ? "text-green-600"
-                            : "text-red-600"
-                        }`}
+                        className={`text-right font-medium ${getCurrencyColorClass(
+                          activity.tipo === "Entrada" ? "entrada" : "saida"
+                        )}`}
                       >
                         {activity.tipo === "Entrada" ? "+" : "-"}
                         {formatCurrency(Number(activity.valor))}

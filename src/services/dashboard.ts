@@ -10,6 +10,8 @@ export interface DashboardStats {
   atividadesRecentes: Transacao[]
 }
 
+const CAIXA_GERAL = null
+
 export async function fetchDashboardStats(): Promise<DashboardStats> {
   const { start, end } = getCurrentMonthRange()
 
@@ -29,19 +31,30 @@ export async function fetchDashboardStats(): Promise<DashboardStats> {
       .from("transacoes")
       .select("valor")
       .eq("tipo", "Entrada")
+      .is("departamento_id", CAIXA_GERAL)
       .gte("data_transacao", start)
       .lte("data_transacao", end),
     supabase
       .from("transacoes")
       .select("valor")
       .eq("tipo", "Saída")
+      .is("departamento_id", CAIXA_GERAL)
       .gte("data_transacao", start)
       .lte("data_transacao", end),
-    supabase.from("transacoes").select("valor").eq("tipo", "Entrada"),
-    supabase.from("transacoes").select("valor").eq("tipo", "Saída"),
+    supabase
+      .from("transacoes")
+      .select("valor")
+      .eq("tipo", "Entrada")
+      .is("departamento_id", CAIXA_GERAL),
+    supabase
+      .from("transacoes")
+      .select("valor")
+      .eq("tipo", "Saída")
+      .is("departamento_id", CAIXA_GERAL),
     supabase
       .from("transacoes")
       .select("*")
+      .is("departamento_id", CAIXA_GERAL)
       .order("data_transacao", { ascending: false })
       .limit(5),
   ])
