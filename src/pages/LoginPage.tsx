@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
-import { Church, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
+import { Logo } from "@/components/brand/Logo"
 import { useAuth } from "@/contexts/AuthContext"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -55,9 +56,8 @@ export function LoginPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
-      <div className="mb-8 flex items-center gap-2">
-        <Church className="h-8 w-8 text-slate-900" />
-        <span className="text-2xl font-bold text-slate-900">AD Gestão</span>
+      <div className="mb-8">
+        <Logo size="lg" />
       </div>
 
       <Card className="w-full max-w-md">

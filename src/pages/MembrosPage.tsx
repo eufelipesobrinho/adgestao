@@ -100,7 +100,7 @@ export function MembrosPage() {
                       <StatusBadge status={membro.status} />
                     </TableCell>
                     <TableCell className="text-right text-slate-500">
-                      {formatDate(membro.created_at)}
+                      {formatDate(membro.data_cadastro)}
                     </TableCell>
                   </TableRow>
                 ))}

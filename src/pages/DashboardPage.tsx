@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import {
   Users,
   ArrowUpRight,
@@ -119,6 +120,7 @@ function formatToday(): string {
 }
 
 export function DashboardPage() {
+  const navigate = useNavigate()
   const today = formatToday()
 
   return (
@@ -139,15 +141,15 @@ export function DashboardPage() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/membros")}>
               <UserPlus className="h-4 w-4" />
               Novo Membro
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/financeiro")}>
               <Plus className="h-4 w-4" />
               Nova Entrada
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/financeiro")}>
               <Minus className="h-4 w-4" />
               Nova Saída
             </DropdownMenuItem>

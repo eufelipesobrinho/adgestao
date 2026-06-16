@@ -5,7 +5,7 @@ export async function fetchMembros(): Promise<Membro[]> {
   const { data, error } = await supabase
     .from("membros")
     .select("*")
-    .order("created_at", { ascending: false })
+    .order("data_cadastro", { ascending: false })
 
   if (error) throw error
   return (data ?? []) as Membro[]

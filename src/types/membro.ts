@@ -9,7 +9,7 @@ export interface Membro {
   endereco: string | null
   data_nascimento: string | null
   status: MembroStatus
-  created_at: string
+  data_cadastro: string
 }
 
 export interface MembroFormData {

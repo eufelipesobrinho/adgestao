@@ -58,7 +58,7 @@ export function AppLayout() {
     <div className="flex min-h-screen bg-slate-50">
       <aside className="hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
         <div className="flex h-16 items-center border-b border-slate-800 px-6">
-          <Logo className="h-10" />
+          <Logo size="md" />
         </div>
         <div className="flex-1 py-6">
           <SidebarNav />
@@ -79,7 +79,7 @@ export function AppLayout() {
               <SheetContent side="left" className="flex w-64 flex-col bg-slate-900 p-0">
                 <SheetHeader className="border-b border-slate-800 px-6 py-4">
                   <SheetTitle className="text-left">
-                    <Logo className="h-10" />
+                    <Logo size="md" />
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 py-6">
@@ -88,7 +88,7 @@ export function AppLayout() {
                 <SidebarFooter onLogout={handleLogout} />
               </SheetContent>
             </Sheet>
-            <Logo className="ml-3 h-8" />
+            <Logo size="sm" className="ml-3" />
           </div>
           <Button
             variant="ghost"
