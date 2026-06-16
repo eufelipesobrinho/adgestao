@@ -2,6 +2,18 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      ;(function () {
+        try {
+          var theme = localStorage.getItem("ad-gestao-theme")
+          var resolved =
+            theme === "dark" ||
+            (theme !== "light" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches)
+          if (resolved) document.documentElement.classList.add("dark")
+        } catch (e) {}
+      })()
+    </script>
     <link rel="icon" type="image/jpeg" href="/adgestao.jpg" />
     <link rel="apple-touch-icon" href="/adgestao.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

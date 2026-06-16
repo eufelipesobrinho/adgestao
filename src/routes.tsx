@@ -7,7 +7,7 @@ import { MembrosPage } from "@/pages/MembrosPage"
 import { FinanceiroPage } from "@/pages/FinanceiroPage"
 import { DepartamentosPage } from "@/pages/DepartamentosPage"
 import { RelatoriosPage } from "@/pages/RelatoriosPage"
-import { PlaceholderPage } from "@/pages/PlaceholderPage"
+import { ConfiguracoesPage } from "@/pages/ConfiguracoesPage"
 
 export const router = createBrowserRouter([
   {
@@ -43,12 +43,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/configuracoes",
-        element: (
-          <PlaceholderPage
-            title="Configurações"
-            description="Configure preferências e dados da sua igreja."
-          />
-        ),
+        element: <ConfiguracoesPage />,
       },
     ],
   },

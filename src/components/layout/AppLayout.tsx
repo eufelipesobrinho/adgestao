@@ -44,7 +44,7 @@ export function AppLayout() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
       </div>
     )
@@ -55,7 +55,7 @@ export function AppLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 print:bg-white">
+    <div className="flex min-h-screen bg-background print:bg-white">
       <aside className="no-print hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
         <div className="flex h-16 items-center border-b border-slate-800 px-6">
           <Logo size="md" />
@@ -67,7 +67,7 @@ export function AppLayout() {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="no-print flex h-16 items-center justify-between border-b bg-white px-4 lg:hidden">
+        <header className="no-print flex h-16 items-center justify-between border-b border-border bg-card px-4 lg:hidden">
           <div className="flex items-center">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>

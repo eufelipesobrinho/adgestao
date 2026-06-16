@@ -12,9 +12,11 @@ import {
   Loader2,
 } from "lucide-react"
 import { toast } from "sonner"
+import { useAuth } from "@/contexts/AuthContext"
 import { getSupabaseErrorMessage } from "@/lib/errors"
 import { formatCurrency, formatDateBR } from "@/lib/dates"
 import { getCurrencyColorClass } from "@/lib/finance-ui"
+import { formatGreetingName, getUserDisplayName } from "@/lib/user"
 import {
   fetchDashboardStats,
   type DashboardStats,
@@ -55,7 +57,9 @@ function CardSkeleton() {
 
 export function DashboardPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const today = formatToday()
+  const greetingName = formatGreetingName(getUserDisplayName(user))
   const [isLoading, setIsLoading] = useState(true)
   const [stats, setStats] = useState<DashboardStats | null>(null)
 
@@ -121,10 +125,10 @@ export function DashboardPage() {
       <FadeIn>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
-              Olá, Secretaria 👋
+            <h1 className="text-2xl font-bold text-foreground md:text-3xl">
+              Olá, {greetingName} 👋
             </h1>
-            <p className="mt-1 capitalize text-slate-500">{today}</p>
+            <p className="mt-1 capitalize text-muted-foreground">{today}</p>
           </div>
 
           <DropdownMenu>
