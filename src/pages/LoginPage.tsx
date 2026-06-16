@@ -1,8 +1,7 @@
 import { useState } from "react"
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Loader2 } from "lucide-react"
 import { Logo } from "@/components/brand/Logo"
-import { useAuth } from "@/contexts/AuthContext"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,15 +23,10 @@ function translateAuthError(message: string): string {
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const { isAuthenticated, isLoading: authLoading } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  if (!authLoading && isAuthenticated) {
-    return <Navigate to="/dashboard" replace />
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -55,12 +49,12 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
-      <div className="mb-8">
-        <Logo size="lg" />
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-8">
+      <div className="mb-10">
+        <Logo size="xl" />
       </div>
 
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md border-border shadow-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Login da Igreja</CardTitle>
           <CardDescription>
@@ -70,12 +64,12 @@ export function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300">
                 {error}
               </div>
             )}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-slate-700">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
                 E-mail
               </label>
               <Input
@@ -86,10 +80,14 @@ export function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
                 required
+                autoComplete="email"
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-slate-700">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-foreground"
+              >
                 Senha
               </label>
               <Input
@@ -100,6 +98,7 @@ export function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isSubmitting}
                 required
+                autoComplete="current-password"
               />
             </div>
             <Button
@@ -120,7 +119,7 @@ export function LoginPage() {
             <div className="text-center">
               <button
                 type="button"
-                className="text-sm text-slate-500 hover:text-slate-700 hover:underline"
+                className="text-sm text-muted-foreground hover:text-foreground hover:underline"
               >
                 Esqueci minha senha
               </button>
@@ -128,12 +127,6 @@ export function LoginPage() {
           </form>
         </CardContent>
       </Card>
-
-      <p className="mt-6 text-sm text-slate-500">
-        <Link to="/" className="hover:text-slate-700 hover:underline">
-          Voltar para a página inicial
-        </Link>
-      </p>
     </div>
   )
 }

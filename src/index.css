@@ -55,6 +55,14 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  #root {
+    overflow-x: hidden;
+    min-height: 100dvh;
   }
 }
 

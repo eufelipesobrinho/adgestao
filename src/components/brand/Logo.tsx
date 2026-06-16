@@ -2,12 +2,13 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const logoVariants = cva("h-10 w-auto max-w-[160px] shrink-0 object-contain rounded-md", {
+const logoVariants = cva("w-auto shrink-0 object-contain rounded-md", {
   variants: {
     size: {
-      sm: "h-8 max-w-[120px]",
-      md: "h-10 max-w-[150px]",
-      lg: "h-12 max-w-[180px]",
+      sm: "h-12 max-w-[160px]",
+      md: "h-16 max-w-[220px]",
+      lg: "h-20 max-w-[280px]",
+      xl: "h-24 max-w-[320px]",
     },
   },
   defaultVariants: {
@@ -23,7 +24,7 @@ export function Logo({ size, className }: LogoProps) {
   return (
     <img
       src="/adgestao.jpg"
-      alt="Logo AD Gestão"
+      alt="AD Gestão"
       className={cn(logoVariants({ size }), className)}
     />
   )

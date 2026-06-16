@@ -39,7 +39,7 @@ export function AppLayout() {
     setIsSigningOut(true)
     await signOut()
     setMobileOpen(false)
-    navigate("/login", { replace: true })
+    navigate("/", { replace: true })
     setIsSigningOut(false)
   }
 
@@ -52,14 +52,14 @@ export function AppLayout() {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/" replace />
   }
 
   return (
     <div className="flex min-h-screen bg-background print:bg-white">
-      <aside className="no-print hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
-        <div className="flex h-16 items-center border-b border-slate-800 px-6">
-          <Logo size="md" className="h-10 w-auto" />
+      <aside className="no-print hidden w-72 shrink-0 flex-col bg-slate-900 lg:flex">
+        <div className="flex h-24 items-center border-b border-slate-800 px-6">
+          <Logo size="lg" />
         </div>
         <div className="flex-1 py-6">
           <SidebarNav />
@@ -68,8 +68,8 @@ export function AppLayout() {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-border bg-card px-4 lg:hidden">
-          <div className="flex min-w-0 flex-1 items-center gap-3">
+        <header className="no-print sticky top-0 z-40 flex h-[4.5rem] shrink-0 items-center justify-between border-b border-border bg-card px-3 lg:hidden">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="shrink-0">
@@ -77,10 +77,10 @@ export function AppLayout() {
                   <span className="sr-only">Abrir menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="flex w-64 flex-col bg-slate-900 p-0">
-                <SheetHeader className="border-b border-slate-800 px-6 py-4">
+              <SheetContent side="left" className="flex w-72 flex-col bg-slate-900 p-0">
+                <SheetHeader className="border-b border-slate-800 px-6 py-5">
                   <SheetTitle className="text-left">
-                    <Logo size="md" className="h-10 w-auto" />
+                    <Logo size="lg" />
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 py-6">
@@ -89,7 +89,7 @@ export function AppLayout() {
                 <SidebarFooter onLogout={handleLogout} />
               </SheetContent>
             </Sheet>
-            <Logo size="md" className="h-10 w-auto" />
+            <Logo size="md" />
           </div>
           <Button
             variant="ghost"
@@ -103,7 +103,7 @@ export function AppLayout() {
           </Button>
         </header>
 
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 print:overflow-visible print:p-0">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-3 md:p-8 print:overflow-visible print:p-0">
           <Outlet />
         </main>
         <PwaPrompt />

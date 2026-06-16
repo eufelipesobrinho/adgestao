@@ -3,6 +3,7 @@ import { Loader2, Printer } from "lucide-react"
 import { toast } from "sonner"
 import { Logo } from "@/components/brand/Logo"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
+import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FadeIn } from "@/components/ui/motion"
@@ -203,36 +204,60 @@ export function RelatoriosPage() {
                       Nenhum departamento cadastrado.
                     </p>
                   ) : (
-                    <div className="w-full overflow-x-auto">
-                      <Table className="print:text-sm">
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Departamento</TableHead>
-                            <TableHead className="text-right">
-                              Total Arrecadado
-                            </TableHead>
-                            <TableHead className="text-right">Total Gasto</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {relatorio.departamentos.map((dep) => (
-                            <TableRow key={dep.id}>
-                              <TableCell className="font-medium">{dep.nome}</TableCell>
-                              <TableCell
-                                className={`text-right font-medium ${getCurrencyColorClass("entrada")}`}
-                              >
-                                {formatCurrency(dep.totalArrecadado)}
-                              </TableCell>
-                              <TableCell
-                                className={`text-right font-medium ${getCurrencyColorClass("saida")}`}
-                              >
-                                {formatCurrency(dep.totalGasto)}
-                              </TableCell>
+                    <>
+                      <div className="hidden w-full overflow-x-auto md:block print:block">
+                        <Table className="print:text-sm">
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Departamento</TableHead>
+                              <TableHead className="text-right">
+                                Total Arrecadado
+                              </TableHead>
+                              <TableHead className="text-right">Total Gasto</TableHead>
                             </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
+                          </TableHeader>
+                          <TableBody>
+                            {relatorio.departamentos.map((dep) => (
+                              <TableRow key={dep.id}>
+                                <TableCell className="font-medium">{dep.nome}</TableCell>
+                                <TableCell
+                                  className={`text-right font-medium ${getCurrencyColorClass("entrada")}`}
+                                >
+                                  {formatCurrency(dep.totalArrecadado)}
+                                </TableCell>
+                                <TableCell
+                                  className={`text-right font-medium ${getCurrencyColorClass("saida")}`}
+                                >
+                                  {formatCurrency(dep.totalGasto)}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+
+                      <div className="flex flex-col gap-3 md:hidden print:hidden">
+                        {relatorio.departamentos.map((dep) => (
+                          <MobileCard key={dep.id}>
+                            <p className="text-base font-semibold text-foreground">
+                              {dep.nome}
+                            </p>
+                            <div className="mt-3 space-y-2 border-t border-border pt-3">
+                              <MobileDetailRow label="Arrecadado">
+                                <span className={getCurrencyColorClass("entrada")}>
+                                  {formatCurrency(dep.totalArrecadado)}
+                                </span>
+                              </MobileDetailRow>
+                              <MobileDetailRow label="Gasto">
+                                <span className={getCurrencyColorClass("saida")}>
+                                  {formatCurrency(dep.totalGasto)}
+                                </span>
+                              </MobileDetailRow>
+                            </div>
+                          </MobileCard>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </section>
 
@@ -240,41 +265,72 @@ export function RelatoriosPage() {
                   <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-600">
                     Detalhamento de Transações
                   </h3>
-                  <div className="w-full overflow-x-auto">
-                    <Table className="print:text-xs">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Dia</TableHead>
-                          <TableHead>Tipo</TableHead>
-                          <TableHead>Descrição</TableHead>
-                          <TableHead>Departamento</TableHead>
-                          <TableHead className="text-right">Valor</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {relatorio.transacoesCronologicas.map((transacao) => (
-                          <TableRow key={transacao.id}>
-                            <TableCell className="whitespace-nowrap text-slate-600">
-                              {formatDateBR(transacao.data_transacao)}
-                            </TableCell>
-                            <TableCell>{transacao.tipo}</TableCell>
-                            <TableCell className="max-w-[200px] truncate sm:max-w-none">
+                  <>
+                    <div className="hidden w-full overflow-x-auto md:block print:block">
+                      <Table className="print:text-xs">
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Dia</TableHead>
+                            <TableHead>Tipo</TableHead>
+                            <TableHead>Descrição</TableHead>
+                            <TableHead>Departamento</TableHead>
+                            <TableHead className="text-right">Valor</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {relatorio.transacoesCronologicas.map((transacao) => (
+                            <TableRow key={transacao.id}>
+                              <TableCell className="whitespace-nowrap text-slate-600">
+                                {formatDateBR(transacao.data_transacao)}
+                              </TableCell>
+                              <TableCell>{transacao.tipo}</TableCell>
+                              <TableCell className="max-w-[200px] truncate sm:max-w-none">
+                                {transacao.descricao ?? "—"}
+                              </TableCell>
+                              <TableCell>{getDepartamentoLabel(transacao)}</TableCell>
+                              <TableCell
+                                className={`text-right font-medium whitespace-nowrap ${getCurrencyColorClass(
+                                  transacao.tipo === "Entrada" ? "entrada" : "saida"
+                                )}`}
+                              >
+                                {transacao.tipo === "Entrada" ? "+" : "-"}
+                                {formatCurrency(Number(transacao.valor))}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+
+                    <div className="flex flex-col gap-3 md:hidden print:hidden">
+                      {relatorio.transacoesCronologicas.map((transacao) => (
+                        <MobileCard key={transacao.id}>
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="min-w-0 flex-1 text-base font-semibold leading-snug text-foreground">
                               {transacao.descricao ?? "—"}
-                            </TableCell>
-                            <TableCell>{getDepartamentoLabel(transacao)}</TableCell>
-                            <TableCell
-                              className={`text-right font-medium whitespace-nowrap ${getCurrencyColorClass(
+                            </p>
+                            <p
+                              className={`shrink-0 text-lg font-bold ${getCurrencyColorClass(
                                 transacao.tipo === "Entrada" ? "entrada" : "saida"
                               )}`}
                             >
                               {transacao.tipo === "Entrada" ? "+" : "-"}
                               {formatCurrency(Number(transacao.valor))}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
+                            </p>
+                          </div>
+                          <div className="mt-3 space-y-2 border-t border-border pt-3">
+                            <MobileDetailRow label="Data">
+                              {formatDateBR(transacao.data_transacao)}
+                            </MobileDetailRow>
+                            <MobileDetailRow label="Tipo">{transacao.tipo}</MobileDetailRow>
+                            <MobileDetailRow label="Departamento">
+                              {getDepartamentoLabel(transacao)}
+                            </MobileDetailRow>
+                          </div>
+                        </MobileCard>
+                      ))}
+                    </div>
+                  </>
                 </section>
               </>
             )}

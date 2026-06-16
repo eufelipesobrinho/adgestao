@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog"
+import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { FadeIn, AnimatedTableRow } from "@/components/ui/motion"
 import { TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Table, TableBody } from "@/components/ui/table"
@@ -154,57 +155,102 @@ export function MembrosPage() {
                 Nenhum membro cadastrado ainda.
               </div>
             ) : (
-              <div className="w-full overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-12" />
-                      <TableHead>Nome</TableHead>
-                      <TableHead>Telefone</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Data de Cadastro</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {membros.map((membro, index) => (
-                      <AnimatedTableRow
+              <>
+                <div className="hidden w-full overflow-x-auto md:block">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-12" />
+                        <TableHead>Nome</TableHead>
+                        <TableHead>Telefone</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Data de Cadastro</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {membros.map((membro, index) => (
+                        <AnimatedTableRow
+                          key={membro.id}
+                          index={index}
+                          data-state={selectedId === membro.id ? "selected" : undefined}
+                          className={selectedId === membro.id ? "bg-amber-50/40" : undefined}
+                        >
+                          <TableCell>
+                            <Checkbox
+                              checked={selectedId === membro.id}
+                              onCheckedChange={(checked) =>
+                                handleSelect(membro.id, checked === true)
+                              }
+                              aria-label={`Selecionar ${membro.nome}`}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <button
+                              type="button"
+                              onClick={() => handleOpenProfile(membro)}
+                              className="font-medium text-slate-900 transition-colors hover:text-amber-600 hover:underline"
+                            >
+                              {membro.nome}
+                            </button>
+                          </TableCell>
+                          <TableCell>{membro.telefone ?? "—"}</TableCell>
+                          <TableCell>{membro.email ?? "—"}</TableCell>
+                          <TableCell>
+                            <StatusBadge status={membro.status_dizimo} />
+                          </TableCell>
+                          <TableCell className="text-right text-slate-500">
+                            {formatDateBR(membro.data_cadastro)}
+                          </TableCell>
+                        </AnimatedTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+
+                <div className="flex flex-col gap-3 md:hidden">
+                  {membros.map((membro) => {
+                    const isSelected = selectedId === membro.id
+                    return (
+                      <MobileCard
                         key={membro.id}
-                        index={index}
-                        data-state={selectedId === membro.id ? "selected" : undefined}
-                        className={selectedId === membro.id ? "bg-amber-50/40" : undefined}
+                        className={isSelected ? "border-amber-300 bg-amber-50/50" : undefined}
+                        onClick={() => handleOpenProfile(membro)}
                       >
-                        <TableCell>
+                        <div className="flex items-start gap-3">
                           <Checkbox
-                            checked={selectedId === membro.id}
+                            checked={isSelected}
                             onCheckedChange={(checked) =>
                               handleSelect(membro.id, checked === true)
                             }
+                            onClick={(e) => e.stopPropagation()}
                             aria-label={`Selecionar ${membro.nome}`}
                           />
-                        </TableCell>
-                        <TableCell>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenProfile(membro)}
-                            className="font-medium text-slate-900 transition-colors hover:text-amber-600 hover:underline"
-                          >
-                            {membro.nome}
-                          </button>
-                        </TableCell>
-                        <TableCell>{membro.telefone ?? "—"}</TableCell>
-                        <TableCell>{membro.email ?? "—"}</TableCell>
-                        <TableCell>
-                          <StatusBadge status={membro.status_dizimo} />
-                        </TableCell>
-                        <TableCell className="text-right text-slate-500">
-                          {formatDateBR(membro.data_cadastro)}
-                        </TableCell>
-                      </AnimatedTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                          <div className="min-w-0 flex-1 space-y-3">
+                            <div className="flex items-start justify-between gap-2">
+                              <p className="text-base font-semibold text-foreground">
+                                {membro.nome}
+                              </p>
+                              <StatusBadge status={membro.status_dizimo} />
+                            </div>
+                            <div className="space-y-2">
+                              <MobileDetailRow label="Telefone">
+                                {membro.telefone ?? "—"}
+                              </MobileDetailRow>
+                              <MobileDetailRow label="E-mail">
+                                <span className="break-all">{membro.email ?? "—"}</span>
+                              </MobileDetailRow>
+                              <MobileDetailRow label="Cadastro">
+                                {formatDateBR(membro.data_cadastro)}
+                              </MobileDetailRow>
+                            </div>
+                          </div>
+                        </div>
+                      </MobileCard>
+                    )
+                  })}
+                </div>
+              </>
             )}
           </CardContent>
         </Card>

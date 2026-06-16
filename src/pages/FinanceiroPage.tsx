@@ -9,6 +9,7 @@ import { AddEntradaSheet } from "@/components/financeiro/AddEntradaSheet"
 import { AddSaidaSheet } from "@/components/financeiro/AddSaidaSheet"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { TransacaoDestinoBadge } from "@/components/financeiro/TransacaoDestinoBadge"
+import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { getCurrencyColorClass } from "@/lib/finance-ui"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -143,25 +144,73 @@ export function FinanceiroPage() {
                 Nenhuma movimentação neste período.
               </div>
             ) : (
-              <div className="w-full overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Descrição</TableHead>
-                      <TableHead>Tipo</TableHead>
-                      <TableHead>Destino</TableHead>
-                      <TableHead>Membro</TableHead>
-                      <TableHead className="text-right">Valor</TableHead>
-                      <TableHead className="text-right">Data</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {transacoes.map((transacao, index) => (
-                      <AnimatedTableRow key={transacao.id} index={index}>
-                        <TableCell className="font-medium">
+              <>
+                <div className="hidden w-full overflow-x-auto md:block">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Descrição</TableHead>
+                        <TableHead>Tipo</TableHead>
+                        <TableHead>Destino</TableHead>
+                        <TableHead>Membro</TableHead>
+                        <TableHead className="text-right">Valor</TableHead>
+                        <TableHead className="text-right">Data</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {transacoes.map((transacao, index) => (
+                        <AnimatedTableRow key={transacao.id} index={index}>
+                          <TableCell className="font-medium">
+                            {transacao.descricao ?? "—"}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                transacao.tipo === "Entrada" ? "success" : "destructive"
+                              }
+                            >
+                              {transacao.tipo}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <TransacaoDestinoBadge transacao={transacao} />
+                          </TableCell>
+                          <TableCell>{transacao.membros?.nome ?? "—"}</TableCell>
+                          <TableCell
+                            className={`text-right font-medium ${getCurrencyColorClass(
+                              transacao.tipo === "Entrada" ? "entrada" : "saida"
+                            )}`}
+                          >
+                            {transacao.tipo === "Entrada" ? "+" : "-"}
+                            {formatCurrency(Number(transacao.valor))}
+                          </TableCell>
+                          <TableCell className="text-right text-slate-500">
+                            {formatDateBR(transacao.data_transacao)}
+                          </TableCell>
+                        </AnimatedTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+
+                <div className="flex flex-col gap-3 md:hidden">
+                  {transacoes.map((transacao) => (
+                    <MobileCard key={transacao.id}>
+                      <div className="flex items-start justify-between gap-3">
+                        <p className="min-w-0 flex-1 text-base font-semibold leading-snug text-foreground">
                           {transacao.descricao ?? "—"}
-                        </TableCell>
-                        <TableCell>
+                        </p>
+                        <p
+                          className={`shrink-0 text-lg font-bold ${getCurrencyColorClass(
+                            transacao.tipo === "Entrada" ? "entrada" : "saida"
+                          )}`}
+                        >
+                          {transacao.tipo === "Entrada" ? "+" : "-"}
+                          {formatCurrency(Number(transacao.valor))}
+                        </p>
+                      </div>
+                      <div className="mt-3 space-y-2 border-t border-border pt-3">
+                        <MobileDetailRow label="Tipo">
                           <Badge
                             variant={
                               transacao.tipo === "Entrada" ? "success" : "destructive"
@@ -169,27 +218,21 @@ export function FinanceiroPage() {
                           >
                             {transacao.tipo}
                           </Badge>
-                        </TableCell>
-                        <TableCell>
+                        </MobileDetailRow>
+                        <MobileDetailRow label="Destino">
                           <TransacaoDestinoBadge transacao={transacao} />
-                        </TableCell>
-                        <TableCell>{transacao.membros?.nome ?? "—"}</TableCell>
-                        <TableCell
-                          className={`text-right font-medium ${getCurrencyColorClass(
-                            transacao.tipo === "Entrada" ? "entrada" : "saida"
-                          )}`}
-                        >
-                          {transacao.tipo === "Entrada" ? "+" : "-"}
-                          {formatCurrency(Number(transacao.valor))}
-                        </TableCell>
-                        <TableCell className="text-right text-slate-500">
+                        </MobileDetailRow>
+                        <MobileDetailRow label="Membro">
+                          {transacao.membros?.nome ?? "—"}
+                        </MobileDetailRow>
+                        <MobileDetailRow label="Data">
                           {formatDateBR(transacao.data_transacao)}
-                        </TableCell>
-                      </AnimatedTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                        </MobileDetailRow>
+                      </div>
+                    </MobileCard>
+                  ))}
+                </div>
+              </>
             )}
           </CardContent>
         </Card>

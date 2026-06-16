@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["adgestao.jpg"],
+      includeAssets: ["adgestao.jpg", "pwa-icon.svg"],
       manifest: {
         name: "AD Gestão",
         short_name: "AD Gestão",
@@ -16,17 +16,25 @@ export default defineConfig({
         theme_color: "#0f172a",
         background_color: "#ffffff",
         display: "standalone",
-        start_url: "/",
+        start_url: "/dashboard",
         icons: [
           {
-            src: "/adgestao.jpg",
-            sizes: "192x192",
-            type: "image/jpeg",
+            src: "/pwa-icon.svg",
+            sizes: "512x512",
+            type: "image/svg+xml",
+            purpose: "any",
+          },
+          {
+            src: "/pwa-icon.svg",
+            sizes: "512x512",
+            type: "image/svg+xml",
+            purpose: "maskable",
           },
           {
             src: "/adgestao.jpg",
             sizes: "512x512",
             type: "image/jpeg",
+            purpose: "any",
           },
         ],
       },
