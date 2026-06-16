@@ -55,8 +55,8 @@ export function AppLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <aside className="hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
+    <div className="flex min-h-screen bg-slate-50 print:bg-white">
+      <aside className="no-print hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
         <div className="flex h-16 items-center border-b border-slate-800 px-6">
           <Logo size="md" />
         </div>
@@ -67,7 +67,7 @@ export function AppLayout() {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="flex h-16 items-center justify-between border-b bg-white px-4 lg:hidden">
+        <header className="no-print flex h-16 items-center justify-between border-b bg-white px-4 lg:hidden">
           <div className="flex items-center">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
@@ -102,7 +102,7 @@ export function AppLayout() {
           </Button>
         </header>
 
-        <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
+        <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 print:overflow-visible print:p-0">
           <Outlet />
         </main>
       </div>

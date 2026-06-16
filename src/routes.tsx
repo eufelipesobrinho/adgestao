@@ -6,6 +6,7 @@ import { DashboardPage } from "@/pages/DashboardPage"
 import { MembrosPage } from "@/pages/MembrosPage"
 import { FinanceiroPage } from "@/pages/FinanceiroPage"
 import { DepartamentosPage } from "@/pages/DepartamentosPage"
+import { RelatoriosPage } from "@/pages/RelatoriosPage"
 import { PlaceholderPage } from "@/pages/PlaceholderPage"
 
 export const router = createBrowserRouter([
@@ -38,12 +39,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/relatorios",
-        element: (
-          <PlaceholderPage
-            title="Relatórios"
-            description="Visualize relatórios financeiros e cadastrais detalhados."
-          />
-        ),
+        element: <RelatoriosPage />,
       },
       {
         path: "/configuracoes",
