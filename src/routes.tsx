@@ -5,6 +5,7 @@ import { LoginPage } from "@/pages/LoginPage"
 import { DashboardPage } from "@/pages/DashboardPage"
 import { MembrosPage } from "@/pages/MembrosPage"
 import { FinanceiroPage } from "@/pages/FinanceiroPage"
+import { DepartamentosPage } from "@/pages/DepartamentosPage"
 import { PlaceholderPage } from "@/pages/PlaceholderPage"
 
 export const router = createBrowserRouter([
@@ -33,12 +34,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/departamentos",
-        element: (
-          <PlaceholderPage
-            title="Departamentos"
-            description="Organize os departamentos e ministérios da igreja."
-          />
-        ),
+        element: <DepartamentosPage />,
       },
       {
         path: "/relatorios",
