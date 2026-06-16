@@ -29,7 +29,7 @@ export function GeralTab() {
         if (perfil) {
           setFormData({
             nome_igreja: perfil.nome_igreja,
-            quantidade_congregacoes: String(perfil.quantidade_congregacoes),
+            quantidade_congregacoes: String(perfil.qtd_congregacoes),
           })
         }
       } catch (err) {

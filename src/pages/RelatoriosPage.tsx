@@ -134,7 +134,7 @@ export function RelatoriosPage() {
               <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-600">
                 Destaques — Caixa Geral
               </h3>
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="border-slate-200 shadow-none print:border print:shadow-none">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium text-slate-600">
@@ -203,34 +203,36 @@ export function RelatoriosPage() {
                       Nenhum departamento cadastrado.
                     </p>
                   ) : (
-                    <Table className="print:text-sm">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Departamento</TableHead>
-                          <TableHead className="text-right">
-                            Total Arrecadado
-                          </TableHead>
-                          <TableHead className="text-right">Total Gasto</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {relatorio.departamentos.map((dep) => (
-                          <TableRow key={dep.id}>
-                            <TableCell className="font-medium">{dep.nome}</TableCell>
-                            <TableCell
-                              className={`text-right font-medium ${getCurrencyColorClass("entrada")}`}
-                            >
-                              {formatCurrency(dep.totalArrecadado)}
-                            </TableCell>
-                            <TableCell
-                              className={`text-right font-medium ${getCurrencyColorClass("saida")}`}
-                            >
-                              {formatCurrency(dep.totalGasto)}
-                            </TableCell>
+                    <div className="w-full overflow-x-auto">
+                      <Table className="print:text-sm">
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Departamento</TableHead>
+                            <TableHead className="text-right">
+                              Total Arrecadado
+                            </TableHead>
+                            <TableHead className="text-right">Total Gasto</TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+                        <TableBody>
+                          {relatorio.departamentos.map((dep) => (
+                            <TableRow key={dep.id}>
+                              <TableCell className="font-medium">{dep.nome}</TableCell>
+                              <TableCell
+                                className={`text-right font-medium ${getCurrencyColorClass("entrada")}`}
+                              >
+                                {formatCurrency(dep.totalArrecadado)}
+                              </TableCell>
+                              <TableCell
+                                className={`text-right font-medium ${getCurrencyColorClass("saida")}`}
+                              >
+                                {formatCurrency(dep.totalGasto)}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                   )}
                 </section>
 
@@ -238,39 +240,41 @@ export function RelatoriosPage() {
                   <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-600">
                     Detalhamento de Transações
                   </h3>
-                  <Table className="print:text-xs">
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Dia</TableHead>
-                        <TableHead>Tipo</TableHead>
-                        <TableHead>Descrição</TableHead>
-                        <TableHead>Departamento</TableHead>
-                        <TableHead className="text-right">Valor</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {relatorio.transacoesCronologicas.map((transacao) => (
-                        <TableRow key={transacao.id}>
-                          <TableCell className="whitespace-nowrap text-slate-600">
-                            {formatDateBR(transacao.data_transacao)}
-                          </TableCell>
-                          <TableCell>{transacao.tipo}</TableCell>
-                          <TableCell className="max-w-[200px] truncate sm:max-w-none">
-                            {transacao.descricao ?? "—"}
-                          </TableCell>
-                          <TableCell>{getDepartamentoLabel(transacao)}</TableCell>
-                          <TableCell
-                            className={`text-right font-medium whitespace-nowrap ${getCurrencyColorClass(
-                              transacao.tipo === "Entrada" ? "entrada" : "saida"
-                            )}`}
-                          >
-                            {transacao.tipo === "Entrada" ? "+" : "-"}
-                            {formatCurrency(Number(transacao.valor))}
-                          </TableCell>
+                  <div className="w-full overflow-x-auto">
+                    <Table className="print:text-xs">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Dia</TableHead>
+                          <TableHead>Tipo</TableHead>
+                          <TableHead>Descrição</TableHead>
+                          <TableHead>Departamento</TableHead>
+                          <TableHead className="text-right">Valor</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                      </TableHeader>
+                      <TableBody>
+                        {relatorio.transacoesCronologicas.map((transacao) => (
+                          <TableRow key={transacao.id}>
+                            <TableCell className="whitespace-nowrap text-slate-600">
+                              {formatDateBR(transacao.data_transacao)}
+                            </TableCell>
+                            <TableCell>{transacao.tipo}</TableCell>
+                            <TableCell className="max-w-[200px] truncate sm:max-w-none">
+                              {transacao.descricao ?? "—"}
+                            </TableCell>
+                            <TableCell>{getDepartamentoLabel(transacao)}</TableCell>
+                            <TableCell
+                              className={`text-right font-medium whitespace-nowrap ${getCurrencyColorClass(
+                                transacao.tipo === "Entrada" ? "entrada" : "saida"
+                              )}`}
+                            >
+                              {transacao.tipo === "Entrada" ? "+" : "-"}
+                              {formatCurrency(Number(transacao.valor))}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
                 </section>
               </>
             )}

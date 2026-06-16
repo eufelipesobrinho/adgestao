@@ -4,6 +4,7 @@ import { Loader2, LogOut, Menu } from "lucide-react"
 import { useAuth } from "@/contexts/AuthContext"
 import { Logo } from "@/components/brand/Logo"
 import { SidebarNav } from "@/components/layout/SidebarNav"
+import { PwaPrompt } from "@/components/pwa/PwaPrompt"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -58,7 +59,7 @@ export function AppLayout() {
     <div className="flex min-h-screen bg-background print:bg-white">
       <aside className="no-print hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
         <div className="flex h-16 items-center border-b border-slate-800 px-6">
-          <Logo size="md" />
+          <Logo size="md" className="h-10 w-auto" />
         </div>
         <div className="flex-1 py-6">
           <SidebarNav />
@@ -67,11 +68,11 @@ export function AppLayout() {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="no-print flex h-16 items-center justify-between border-b border-border bg-card px-4 lg:hidden">
-          <div className="flex items-center">
+        <header className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-border bg-card px-4 lg:hidden">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="shrink-0">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Abrir menu</span>
                 </Button>
@@ -79,7 +80,7 @@ export function AppLayout() {
               <SheetContent side="left" className="flex w-64 flex-col bg-slate-900 p-0">
                 <SheetHeader className="border-b border-slate-800 px-6 py-4">
                   <SheetTitle className="text-left">
-                    <Logo size="md" />
+                    <Logo size="md" className="h-10 w-auto" />
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 py-6">
@@ -88,7 +89,7 @@ export function AppLayout() {
                 <SidebarFooter onLogout={handleLogout} />
               </SheetContent>
             </Sheet>
-            <Logo size="sm" className="ml-3" />
+            <Logo size="md" className="h-10 w-auto" />
           </div>
           <Button
             variant="ghost"
@@ -102,9 +103,10 @@ export function AppLayout() {
           </Button>
         </header>
 
-        <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 print:overflow-visible print:p-0">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 print:overflow-visible print:p-0">
           <Outlet />
         </main>
+        <PwaPrompt />
       </div>
     </div>
   )

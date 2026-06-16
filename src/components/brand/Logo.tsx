@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const logoVariants = cva("w-auto object-contain rounded-md", {
+const logoVariants = cva("h-10 w-auto max-w-[160px] shrink-0 object-contain rounded-md", {
   variants: {
     size: {
       sm: "h-8 max-w-[120px]",

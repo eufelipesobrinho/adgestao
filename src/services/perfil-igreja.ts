@@ -39,7 +39,7 @@ export async function upsertPerfilIgreja(
       {
         igreja_id: igrejaId,
         nome_igreja: formData.nome_igreja.trim(),
-        quantidade_congregacoes: Number.isFinite(quantidade) ? quantidade : 0,
+        qtd_congregacoes: Number.isFinite(quantidade) ? quantidade : 0,
       },
       { onConflict: "igreja_id" }
     )

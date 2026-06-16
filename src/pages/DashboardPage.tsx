@@ -156,7 +156,7 @@ export function DashboardPage() {
         </div>
       </FadeIn>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {summaryCards.map((card, index) => (
           <FadeIn key={card.title} delay={index * 0.05}>
             <Card className="border-slate-200/80 shadow-sm transition-shadow hover:shadow-md">
@@ -204,37 +204,39 @@ export function DashboardPage() {
                 Nenhuma transação registrada ainda.
               </div>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Transação</TableHead>
-                    <TableHead>Categoria</TableHead>
-                    <TableHead className="text-right">Valor</TableHead>
-                    <TableHead className="text-right">Data</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {stats.atividadesRecentes.map((activity, index) => (
-                    <AnimatedTableRow key={activity.id} index={index}>
-                      <TableCell className="font-medium">
-                        {activity.descricao ?? "—"}
-                      </TableCell>
-                      <TableCell>{activity.tipo}</TableCell>
-                      <TableCell
-                        className={`text-right font-medium ${getCurrencyColorClass(
-                          activity.tipo === "Entrada" ? "entrada" : "saida"
-                        )}`}
-                      >
-                        {activity.tipo === "Entrada" ? "+" : "-"}
-                        {formatCurrency(Number(activity.valor))}
-                      </TableCell>
-                      <TableCell className="text-right text-slate-500">
-                        {formatDateBR(activity.data_transacao)}
-                      </TableCell>
-                    </AnimatedTableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <div className="w-full overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Transação</TableHead>
+                      <TableHead>Categoria</TableHead>
+                      <TableHead className="text-right">Valor</TableHead>
+                      <TableHead className="text-right">Data</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {stats.atividadesRecentes.map((activity, index) => (
+                      <AnimatedTableRow key={activity.id} index={index}>
+                        <TableCell className="font-medium">
+                          {activity.descricao ?? "—"}
+                        </TableCell>
+                        <TableCell>{activity.tipo}</TableCell>
+                        <TableCell
+                          className={`text-right font-medium ${getCurrencyColorClass(
+                            activity.tipo === "Entrada" ? "entrada" : "saida"
+                          )}`}
+                        >
+                          {activity.tipo === "Entrada" ? "+" : "-"}
+                          {formatCurrency(Number(activity.valor))}
+                        </TableCell>
+                        <TableCell className="text-right text-slate-500">
+                          {formatDateBR(activity.data_transacao)}
+                        </TableCell>
+                      </AnimatedTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>

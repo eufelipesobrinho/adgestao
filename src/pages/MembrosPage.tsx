@@ -154,55 +154,57 @@ export function MembrosPage() {
                 Nenhum membro cadastrado ainda.
               </div>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-12" />
-                    <TableHead>Nome</TableHead>
-                    <TableHead>Telefone</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Data de Cadastro</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {membros.map((membro, index) => (
-                    <AnimatedTableRow
-                      key={membro.id}
-                      index={index}
-                      data-state={selectedId === membro.id ? "selected" : undefined}
-                      className={selectedId === membro.id ? "bg-amber-50/40" : undefined}
-                    >
-                      <TableCell>
-                        <Checkbox
-                          checked={selectedId === membro.id}
-                          onCheckedChange={(checked) =>
-                            handleSelect(membro.id, checked === true)
-                          }
-                          aria-label={`Selecionar ${membro.nome}`}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <button
-                          type="button"
-                          onClick={() => handleOpenProfile(membro)}
-                          className="font-medium text-slate-900 transition-colors hover:text-amber-600 hover:underline"
-                        >
-                          {membro.nome}
-                        </button>
-                      </TableCell>
-                      <TableCell>{membro.telefone ?? "—"}</TableCell>
-                      <TableCell>{membro.email ?? "—"}</TableCell>
-                      <TableCell>
-                        <StatusBadge status={membro.status_dizimo} />
-                      </TableCell>
-                      <TableCell className="text-right text-slate-500">
-                        {formatDateBR(membro.data_cadastro)}
-                      </TableCell>
-                    </AnimatedTableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <div className="w-full overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-12" />
+                      <TableHead>Nome</TableHead>
+                      <TableHead>Telefone</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Data de Cadastro</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {membros.map((membro, index) => (
+                      <AnimatedTableRow
+                        key={membro.id}
+                        index={index}
+                        data-state={selectedId === membro.id ? "selected" : undefined}
+                        className={selectedId === membro.id ? "bg-amber-50/40" : undefined}
+                      >
+                        <TableCell>
+                          <Checkbox
+                            checked={selectedId === membro.id}
+                            onCheckedChange={(checked) =>
+                              handleSelect(membro.id, checked === true)
+                            }
+                            aria-label={`Selecionar ${membro.nome}`}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <button
+                            type="button"
+                            onClick={() => handleOpenProfile(membro)}
+                            className="font-medium text-slate-900 transition-colors hover:text-amber-600 hover:underline"
+                          >
+                            {membro.nome}
+                          </button>
+                        </TableCell>
+                        <TableCell>{membro.telefone ?? "—"}</TableCell>
+                        <TableCell>{membro.email ?? "—"}</TableCell>
+                        <TableCell>
+                          <StatusBadge status={membro.status_dizimo} />
+                        </TableCell>
+                        <TableCell className="text-right text-slate-500">
+                          {formatDateBR(membro.data_cadastro)}
+                        </TableCell>
+                      </AnimatedTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>
