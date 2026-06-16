@@ -31,14 +31,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { FadeIn, AnimatedTableRow } from "@/components/ui/motion"
+import { TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody } from "@/components/ui/table"
 
 function formatToday(): string {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -116,117 +111,123 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
-            Olá, Secretaria 👋
-          </h1>
-          <p className="mt-1 capitalize text-slate-500">{today}</p>
-        </div>
+      <FadeIn>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+              Olá, Secretaria 👋
+            </h1>
+            <p className="mt-1 capitalize text-slate-500">{today}</p>
+          </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="gold">
-              Novo Registro
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem onClick={() => navigate("/membros")}>
-              <UserPlus className="h-4 w-4" />
-              Novo Membro
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/financeiro")}>
-              <Plus className="h-4 w-4" />
-              Nova Entrada
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/financeiro")}>
-              <Minus className="h-4 w-4" />
-              Nova Saída
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="gold">
+                Novo Registro
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => navigate("/membros")}>
+                <UserPlus className="h-4 w-4" />
+                Novo Membro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/financeiro")}>
+                <Plus className="h-4 w-4" />
+                Nova Entrada
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/financeiro")}>
+                <Minus className="h-4 w-4" />
+                Nova Saída
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </FadeIn>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {summaryCards.map((card) => (
-          <Card key={card.title}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">
-                {card.title}
-              </CardTitle>
-              <div
-                className={`flex h-9 w-9 items-center justify-center rounded-lg ${card.iconBg}`}
-              >
-                <card.icon className={`h-5 w-5 ${card.iconColor}`} />
-              </div>
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <CardSkeleton />
-              ) : (
-                <>
-                  <p className="text-2xl font-bold text-slate-900">{card.value}</p>
-                  {card.subtitle && (
-                    <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
-                  )}
-                </>
-              )}
-            </CardContent>
-          </Card>
+        {summaryCards.map((card, index) => (
+          <FadeIn key={card.title} delay={index * 0.05}>
+            <Card className="border-slate-200/80 shadow-sm transition-shadow hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-slate-600">
+                  {card.title}
+                </CardTitle>
+                <div
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg ${card.iconBg}`}
+                >
+                  <card.icon className={`h-5 w-5 ${card.iconColor}`} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <CardSkeleton />
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-slate-900">{card.value}</p>
+                    {card.subtitle && (
+                      <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
+                    )}
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </FadeIn>
         ))}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Atividades Recentes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex items-center justify-center py-16">
-              <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
-            </div>
-          ) : !stats?.atividadesRecentes.length ? (
-            <div className="py-16 text-center text-slate-500">
-              Nenhuma transação registrada ainda.
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Transação</TableHead>
-                  <TableHead>Categoria</TableHead>
-                  <TableHead className="text-right">Valor</TableHead>
-                  <TableHead className="text-right">Data</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {stats.atividadesRecentes.map((activity) => (
-                  <TableRow key={activity.id}>
-                    <TableCell className="font-medium">
-                      {activity.descricao ?? "—"}
-                    </TableCell>
-                    <TableCell>{activity.tipo}</TableCell>
-                    <TableCell
-                      className={`text-right font-medium ${
-                        activity.tipo === "Entrada"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {activity.tipo === "Entrada" ? "+" : "-"}
-                      {formatCurrency(Number(activity.valor))}
-                    </TableCell>
-                    <TableCell className="text-right text-slate-500">
-                      {formatDateBR(activity.data_transacao)}
-                    </TableCell>
+      <FadeIn delay={0.2}>
+        <Card className="border-slate-200/80 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-lg">Atividades Recentes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+              </div>
+            ) : !stats?.atividadesRecentes.length ? (
+              <div className="py-16 text-center text-slate-500">
+                Nenhuma transação registrada ainda.
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Transação</TableHead>
+                    <TableHead>Categoria</TableHead>
+                    <TableHead className="text-right">Valor</TableHead>
+                    <TableHead className="text-right">Data</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {stats.atividadesRecentes.map((activity, index) => (
+                    <AnimatedTableRow key={activity.id} index={index}>
+                      <TableCell className="font-medium">
+                        {activity.descricao ?? "—"}
+                      </TableCell>
+                      <TableCell>{activity.tipo}</TableCell>
+                      <TableCell
+                        className={`text-right font-medium ${
+                          activity.tipo === "Entrada"
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {activity.tipo === "Entrada" ? "+" : "-"}
+                        {formatCurrency(Number(activity.valor))}
+                      </TableCell>
+                      <TableCell className="text-right text-slate-500">
+                        {formatDateBR(activity.data_transacao)}
+                      </TableCell>
+                    </AnimatedTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+      </FadeIn>
     </div>
   )
 }

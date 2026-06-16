@@ -5,20 +5,15 @@ import { getSupabaseErrorMessage } from "@/lib/errors"
 import { formatCurrency, formatDateBR, getMonthRange } from "@/lib/dates"
 import { fetchTransacoesByMonth } from "@/services/transacoes"
 import type { Transacao } from "@/types/transacao"
-import { AddEntradaDialog } from "@/components/financeiro/AddEntradaDialog"
-import { AddSaidaDialog } from "@/components/financeiro/AddSaidaDialog"
+import { AddEntradaSheet } from "@/components/financeiro/AddEntradaSheet"
+import { AddSaidaSheet } from "@/components/financeiro/AddSaidaSheet"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { FadeIn, AnimatedTableRow } from "@/components/ui/motion"
+import { TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody } from "@/components/ui/table"
 
 export function FinanceiroPage() {
   const now = new Date()
@@ -61,141 +56,147 @@ export function FinanceiroPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
-            Financeiro
-          </h1>
-          <p className="mt-1 text-slate-500">
-            Controle entradas, saídas e o fluxo de caixa da igreja
-          </p>
+      <FadeIn>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+              Financeiro
+            </h1>
+            <p className="mt-1 text-slate-500">
+              Controle entradas, saídas e o fluxo de caixa da igreja
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="gold" onClick={() => setEntradaOpen(true)}>
+              <ArrowUpRight className="h-4 w-4" />
+              Nova Entrada
+            </Button>
+            <Button
+              variant="outline"
+              className="border-red-200 text-red-700 hover:bg-red-50"
+              onClick={() => setSaidaOpen(true)}
+            >
+              <ArrowDownRight className="h-4 w-4" />
+              Nova Saída
+            </Button>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="gold" onClick={() => setEntradaOpen(true)}>
-            <ArrowUpRight className="h-4 w-4" />
-            Nova Entrada
-          </Button>
-          <Button
-            variant="outline"
-            className="border-red-200 text-red-700 hover:bg-red-50"
-            onClick={() => setSaidaOpen(true)}
-          >
-            <ArrowDownRight className="h-4 w-4" />
-            Nova Saída
-          </Button>
-        </div>
-      </div>
+      </FadeIn>
 
-      <MonthNavigator month={month} year={year} onChange={handleMonthChange} />
+      <FadeIn delay={0.05}>
+        <MonthNavigator month={month} year={year} onChange={handleMonthChange} />
+      </FadeIn>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">
-              Entradas do Período
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
-            ) : (
-              <p className="text-2xl font-bold text-green-600">
-                {formatCurrency(totalEntradas)}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">
-              Saídas do Período
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
-            ) : (
-              <p className="text-2xl font-bold text-red-600">
-                {formatCurrency(totalSaidas)}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <FadeIn delay={0.1}>
+          <Card className="border-slate-200/80 shadow-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-slate-600">
+                Entradas do Período
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+              ) : (
+                <p className="text-2xl font-bold text-green-600">
+                  {formatCurrency(totalEntradas)}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </FadeIn>
+        <FadeIn delay={0.15}>
+          <Card className="border-slate-200/80 shadow-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-slate-600">
+                Saídas do Período
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+              ) : (
+                <p className="text-2xl font-bold text-red-600">
+                  {formatCurrency(totalSaidas)}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </FadeIn>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Movimentações do Mês</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex items-center justify-center py-16">
-              <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
-            </div>
-          ) : transacoes.length === 0 ? (
-            <div className="py-16 text-center text-slate-500">
-              Nenhuma movimentação neste período.
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Descrição</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Membro</TableHead>
-                  <TableHead>Departamento</TableHead>
-                  <TableHead className="text-right">Valor</TableHead>
-                  <TableHead className="text-right">Data</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {transacoes.map((transacao) => (
-                  <TableRow key={transacao.id}>
-                    <TableCell className="font-medium">
-                      {transacao.descricao ?? "—"}
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          transacao.tipo === "Entrada" ? "success" : "destructive"
-                        }
-                      >
-                        {transacao.tipo}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {transacao.membros?.nome ?? "—"}
-                    </TableCell>
-                    <TableCell>
-                      {transacao.departamentos?.nome ?? "—"}
-                    </TableCell>
-                    <TableCell
-                      className={`text-right font-medium ${
-                        transacao.tipo === "Entrada"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {transacao.tipo === "Entrada" ? "+" : "-"}
-                      {formatCurrency(Number(transacao.valor))}
-                    </TableCell>
-                    <TableCell className="text-right text-slate-500">
-                      {formatDateBR(transacao.data_transacao)}
-                    </TableCell>
+      <FadeIn delay={0.2}>
+        <Card className="border-slate-200/80 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-lg">Movimentações do Mês</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+              </div>
+            ) : transacoes.length === 0 ? (
+              <div className="py-16 text-center text-slate-500">
+                Nenhuma movimentação neste período.
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Descrição</TableHead>
+                    <TableHead>Tipo</TableHead>
+                    <TableHead>Membro</TableHead>
+                    <TableHead>Departamento</TableHead>
+                    <TableHead className="text-right">Valor</TableHead>
+                    <TableHead className="text-right">Data</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {transacoes.map((transacao, index) => (
+                    <AnimatedTableRow key={transacao.id} index={index}>
+                      <TableCell className="font-medium">
+                        {transacao.descricao ?? "—"}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            transacao.tipo === "Entrada" ? "success" : "destructive"
+                          }
+                        >
+                          {transacao.tipo}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{transacao.membros?.nome ?? "—"}</TableCell>
+                      <TableCell>{transacao.departamentos?.nome ?? "—"}</TableCell>
+                      <TableCell
+                        className={`text-right font-medium ${
+                          transacao.tipo === "Entrada"
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {transacao.tipo === "Entrada" ? "+" : "-"}
+                        {formatCurrency(Number(transacao.valor))}
+                      </TableCell>
+                      <TableCell className="text-right text-slate-500">
+                        {formatDateBR(transacao.data_transacao)}
+                      </TableCell>
+                    </AnimatedTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+      </FadeIn>
 
-      <AddEntradaDialog
+      <AddEntradaSheet
         open={entradaOpen}
         onOpenChange={setEntradaOpen}
         onSuccess={loadTransacoes}
       />
-      <AddSaidaDialog
+      <AddSaidaSheet
         open={saidaOpen}
         onOpenChange={setSaidaOpen}
         onSuccess={loadTransacoes}

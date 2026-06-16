@@ -35,7 +35,8 @@ export async function createEntrada(
       valor: parseCurrencyInput(formData.valor),
       descricao: `[${formData.subtipo}] ${formData.descricao.trim()}`,
       data_transacao: formData.data_transacao,
-      membro_id: formData.membro_id || null,
+      membro_id:
+        formData.subtipo === "Oferta" ? null : formData.membro_id || null,
       departamento_id: formData.departamento_id || null,
     })
     .select()

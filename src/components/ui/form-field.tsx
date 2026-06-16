@@ -36,7 +36,7 @@ interface FormSectionProps {
 
 export function FormSection({ title, description, children }: FormSectionProps) {
   return (
-    <section className="space-y-4 rounded-xl border border-slate-200 bg-white p-4">
+    <section className="space-y-4 rounded-xl border border-slate-200/80 bg-slate-50/40 p-4">
       <div>
         <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
         {description && (
