@@ -8,7 +8,7 @@ export interface Membro {
   telefone: string | null
   endereco: string | null
   data_nascimento: string | null
-  status: MembroStatus
+  status_dizimo: MembroStatus
   data_cadastro: string
 }
 
@@ -18,7 +18,7 @@ export interface MembroFormData {
   telefone: string
   endereco: string
   data_nascimento: string
-  status: MembroStatus
+  status_dizimo: MembroStatus
 }
 
 export const MEMBRO_STATUS_OPTIONS: MembroStatus[] = ["Ativo", "Inadimplente"]

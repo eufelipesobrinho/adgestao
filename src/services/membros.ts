@@ -24,7 +24,7 @@ export async function createMembro(
       telefone: formData.telefone.trim() || null,
       endereco: formData.endereco.trim() || null,
       data_nascimento: formData.data_nascimento || null,
-      status: formData.status,
+      status_dizimo: formData.status_dizimo,
     })
     .select()
     .single()

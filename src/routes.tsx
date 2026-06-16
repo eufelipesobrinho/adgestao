@@ -4,6 +4,7 @@ import { LandingPage } from "@/pages/LandingPage"
 import { LoginPage } from "@/pages/LoginPage"
 import { DashboardPage } from "@/pages/DashboardPage"
 import { MembrosPage } from "@/pages/MembrosPage"
+import { FinanceiroPage } from "@/pages/FinanceiroPage"
 import { PlaceholderPage } from "@/pages/PlaceholderPage"
 
 export const router = createBrowserRouter([
@@ -28,12 +29,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/financeiro",
-        element: (
-          <PlaceholderPage
-            title="Financeiro"
-            description="Controle dízimos, ofertas, despesas e o fluxo de caixa."
-          />
-        ),
+        element: <FinanceiroPage />,
       },
       {
         path: "/departamentos",

@@ -21,7 +21,7 @@ function formatDate(dateString: string): string {
   return new Intl.DateTimeFormat("pt-BR").format(new Date(dateString))
 }
 
-function StatusBadge({ status }: { status: Membro["status"] }) {
+function StatusBadge({ status }: { status: Membro["status_dizimo"] }) {
   if (status === "Ativo") {
     return <Badge variant="success">Ativo</Badge>
   }
@@ -97,7 +97,7 @@ export function MembrosPage() {
                     <TableCell>{membro.telefone ?? "—"}</TableCell>
                     <TableCell>{membro.email ?? "—"}</TableCell>
                     <TableCell>
-                      <StatusBadge status={membro.status} />
+                      <StatusBadge status={membro.status_dizimo} />
                     </TableCell>
                     <TableCell className="text-right text-slate-500">
                       {formatDate(membro.data_cadastro)}
