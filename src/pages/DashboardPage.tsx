@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Users,
@@ -8,7 +9,15 @@ import {
   UserPlus,
   Plus,
   Minus,
+  Loader2,
 } from "lucide-react"
+import { toast } from "sonner"
+import { getSupabaseErrorMessage } from "@/lib/errors"
+import { formatCurrency, formatDateBR } from "@/lib/dates"
+import {
+  fetchDashboardStats,
+  type DashboardStats,
+} from "@/services/dashboard"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -31,85 +40,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-const summaryCards = [
-  {
-    title: "Membros Ativos",
-    value: "248",
-    icon: Users,
-    iconColor: "text-blue-600",
-    iconBg: "bg-blue-50",
-  },
-  {
-    title: "Entradas do Mês",
-    subtitle: "Dízimos & Ofertas",
-    value: "R$ 18.450,00",
-    icon: ArrowUpRight,
-    iconColor: "text-green-600",
-    iconBg: "bg-green-50",
-  },
-  {
-    title: "Saídas do Mês",
-    subtitle: "Despesas operacionais",
-    value: "R$ 7.230,00",
-    icon: ArrowDownRight,
-    iconColor: "text-red-600",
-    iconBg: "bg-red-50",
-  },
-  {
-    title: "Saldo Atual",
-    subtitle: "Atualizado hoje",
-    value: "R$ 11.220,00",
-    icon: Landmark,
-    iconColor: "text-amber-600",
-    iconBg: "bg-amber-50",
-  },
-]
-
-const recentActivities = [
-  {
-    transacao: "Dízimo",
-    categoria: "Dízimos",
-    valor: "R$ 350,00",
-    data: "16/06/2026",
-    tipo: "entrada" as const,
-  },
-  {
-    transacao: "Oferta de Missões",
-    categoria: "Ofertas",
-    valor: "R$ 120,00",
-    data: "16/06/2026",
-    tipo: "entrada" as const,
-  },
-  {
-    transacao: "Conta de Luz",
-    categoria: "Despesas Fixas",
-    valor: "R$ 890,00",
-    data: "15/06/2026",
-    tipo: "saida" as const,
-  },
-  {
-    transacao: "Dízimo",
-    categoria: "Dízimos",
-    valor: "R$ 500,00",
-    data: "15/06/2026",
-    tipo: "entrada" as const,
-  },
-  {
-    transacao: "Manutenção do Som",
-    categoria: "Manutenção",
-    valor: "R$ 450,00",
-    data: "14/06/2026",
-    tipo: "saida" as const,
-  },
-  {
-    transacao: "Oferta Especial",
-    categoria: "Ofertas",
-    valor: "R$ 2.300,00",
-    data: "14/06/2026",
-    tipo: "entrada" as const,
-  },
-]
-
 function formatToday(): string {
   return new Intl.DateTimeFormat("pt-BR", {
     weekday: "long",
@@ -119,9 +49,70 @@ function formatToday(): string {
   }).format(new Date())
 }
 
+function CardSkeleton() {
+  return (
+    <div className="flex h-10 items-center">
+      <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+    </div>
+  )
+}
+
 export function DashboardPage() {
   const navigate = useNavigate()
   const today = formatToday()
+  const [isLoading, setIsLoading] = useState(true)
+  const [stats, setStats] = useState<DashboardStats | null>(null)
+
+  const loadStats = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const data = await fetchDashboardStats()
+      setStats(data)
+    } catch (err) {
+      toast.error(getSupabaseErrorMessage(err))
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    loadStats()
+  }, [loadStats])
+
+  const summaryCards = [
+    {
+      title: "Membros Ativos",
+      value: stats ? String(stats.membrosAtivos) : "—",
+      subtitle: undefined,
+      icon: Users,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50",
+    },
+    {
+      title: "Entradas do Mês",
+      value: stats ? formatCurrency(stats.entradasMes) : "—",
+      subtitle: "Dízimos & Ofertas",
+      icon: ArrowUpRight,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-50",
+    },
+    {
+      title: "Saídas do Mês",
+      value: stats ? formatCurrency(stats.saidasMes) : "—",
+      subtitle: "Despesas operacionais",
+      icon: ArrowDownRight,
+      iconColor: "text-red-600",
+      iconBg: "bg-red-50",
+    },
+    {
+      title: "Saldo Atual",
+      value: stats ? formatCurrency(stats.saldoAtual) : "—",
+      subtitle: "Atualizado hoje",
+      icon: Landmark,
+      iconColor: "text-amber-600",
+      iconBg: "bg-amber-50",
+    },
+  ]
 
   return (
     <div className="space-y-8">
@@ -171,9 +162,15 @@ export function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold text-slate-900">{card.value}</p>
-              {card.subtitle && (
-                <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
+              {isLoading ? (
+                <CardSkeleton />
+              ) : (
+                <>
+                  <p className="text-2xl font-bold text-slate-900">{card.value}</p>
+                  {card.subtitle && (
+                    <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
+                  )}
+                </>
               )}
             </CardContent>
           </Card>
@@ -185,39 +182,49 @@ export function DashboardPage() {
           <CardTitle className="text-lg">Atividades Recentes</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Transação</TableHead>
-                <TableHead>Categoria</TableHead>
-                <TableHead className="text-right">Valor</TableHead>
-                <TableHead className="text-right">Data</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentActivities.map((activity, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">
-                    {activity.transacao}
-                  </TableCell>
-                  <TableCell>{activity.categoria}</TableCell>
-                  <TableCell
-                    className={`text-right font-medium ${
-                      activity.tipo === "entrada"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {activity.tipo === "entrada" ? "+" : "-"}
-                    {activity.valor}
-                  </TableCell>
-                  <TableCell className="text-right text-slate-500">
-                    {activity.data}
-                  </TableCell>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+            </div>
+          ) : !stats?.atividadesRecentes.length ? (
+            <div className="py-16 text-center text-slate-500">
+              Nenhuma transação registrada ainda.
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Transação</TableHead>
+                  <TableHead>Categoria</TableHead>
+                  <TableHead className="text-right">Valor</TableHead>
+                  <TableHead className="text-right">Data</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {stats.atividadesRecentes.map((activity) => (
+                  <TableRow key={activity.id}>
+                    <TableCell className="font-medium">
+                      {activity.descricao ?? "—"}
+                    </TableCell>
+                    <TableCell>{activity.tipo}</TableCell>
+                    <TableCell
+                      className={`text-right font-medium ${
+                        activity.tipo === "Entrada"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {activity.tipo === "Entrada" ? "+" : "-"}
+                      {formatCurrency(Number(activity.valor))}
+                    </TableCell>
+                    <TableCell className="text-right text-slate-500">
+                      {formatDateBR(activity.data_transacao)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>

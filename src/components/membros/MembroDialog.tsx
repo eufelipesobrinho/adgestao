@@ -1,11 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { getSupabaseErrorMessage } from "@/lib/errors"
 import { supabase } from "@/lib/supabase"
-import { createMembro } from "@/services/membros"
+import {
+  createMembro,
+  membroToFormData,
+  updateMembro,
+} from "@/services/membros"
 import {
   MEMBRO_STATUS_OPTIONS,
+  type Membro,
   type MembroFormData,
   type MembroStatus,
 } from "@/types/membro"
@@ -38,19 +43,28 @@ const initialFormData: MembroFormData = {
   status_dizimo: "Ativo",
 }
 
-interface AddMembroDialogProps {
+interface MembroDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSuccess: () => void
+  membro?: Membro | null
 }
 
-export function AddMembroDialog({
+export function MembroDialog({
   open,
   onOpenChange,
   onSuccess,
-}: AddMembroDialogProps) {
+  membro,
+}: MembroDialogProps) {
+  const isEditing = !!membro
   const [formData, setFormData] = useState<MembroFormData>(initialFormData)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setFormData(membro ? membroToFormData(membro) : initialFormData)
+    }
+  }, [open, membro])
 
   const resetForm = () => setFormData(initialFormData)
 
@@ -70,17 +84,23 @@ export function AddMembroDialog({
     setIsSubmitting(true)
 
     try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
+      if (isEditing && membro) {
+        await updateMembro(membro.id, formData)
+        toast.success("Membro atualizado com sucesso!")
+      } else {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession()
 
-      if (!session?.user?.id) {
-        toast.error("Sessão expirada. Faça login novamente.")
-        return
+        if (!session?.user?.id) {
+          toast.error("Sessão expirada. Faça login novamente.")
+          return
+        }
+
+        await createMembro(formData, session.user.id)
+        toast.success("Membro cadastrado com sucesso!")
       }
 
-      await createMembro(formData, session.user.id)
-      toast.success("Membro cadastrado com sucesso!")
       resetForm()
       onOpenChange(false)
       onSuccess()
@@ -97,10 +117,12 @@ export function AddMembroDialog({
         <div className="border-b border-slate-200 bg-slate-50 px-6 py-5">
           <DialogHeader className="space-y-1 text-left">
             <DialogTitle className="text-xl text-slate-900">
-              Adicionar Membro
+              {isEditing ? "Editar Membro" : "Adicionar Membro"}
             </DialogTitle>
             <DialogDescription>
-              Cadastre um novo membro com os dados da congregação.
+              {isEditing
+                ? "Atualize os dados do membro selecionado."
+                : "Cadastre um novo membro com os dados da congregação."}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -221,6 +243,8 @@ export function AddMembroDialog({
                   <Loader2 className="h-4 w-4 animate-spin" />
                   Salvando...
                 </>
+              ) : isEditing ? (
+                "Salvar Alterações"
               ) : (
                 "Salvar Membro"
               )}

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import {
   buildISODate,
   getDayOptions,
@@ -15,6 +16,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+interface DateParts {
+  day: string
+  month: string
+  year: string
+}
+
 interface DatePickerProps {
   id?: string
   label?: string
@@ -23,6 +30,10 @@ interface DatePickerProps {
   disabled?: boolean
   yearRange?: number
   className?: string
+}
+
+function partsFromValue(value: string): DateParts {
+  return parseISODate(value)
 }
 
 export function DatePicker({
@@ -34,16 +45,31 @@ export function DatePicker({
   yearRange = 100,
   className,
 }: DatePickerProps) {
-  const { day, month, year } = parseISODate(value)
-  const dayOptions = getDayOptions(month, year)
+  const [parts, setParts] = useState<DateParts>(() => partsFromValue(value))
+
+  useEffect(() => {
+    setParts(partsFromValue(value))
+  }, [value])
+
   const monthOptions = getMonthOptions()
   const yearOptions = getYearOptions(yearRange)
+  const dayOptions = getDayOptions(parts.month, parts.year)
 
-  const updateDate = (next: Partial<{ day: string; month: string; year: string }>) => {
-    const nextDay = next.day ?? day
-    const nextMonth = next.month ?? month
-    const nextYear = next.year ?? year
-    onChange(buildISODate(nextDay, nextMonth, nextYear))
+  const updateParts = (next: Partial<DateParts>) => {
+    const merged = { ...parts, ...next }
+
+    if (merged.day && merged.month && merged.year) {
+      const maxDay = getDayOptions(merged.month, merged.year).length
+      if (Number(merged.day) > maxDay) {
+        merged.day = String(maxDay).padStart(2, "0")
+      }
+    }
+
+    setParts(merged)
+
+    if (merged.day && merged.month && merged.year) {
+      onChange(buildISODate(merged.day, merged.month, merged.year))
+    }
   }
 
   return (
@@ -56,8 +82,8 @@ export function DatePicker({
         <div className="space-y-1">
           <span className="px-1 text-xs font-medium text-slate-500">Dia</span>
           <Select
-            value={day}
-            onValueChange={(nextDay) => updateDate({ day: nextDay })}
+            value={parts.day || undefined}
+            onValueChange={(nextDay) => updateParts({ day: nextDay })}
             disabled={disabled}
           >
             <SelectTrigger className="bg-white">
@@ -76,8 +102,8 @@ export function DatePicker({
         <div className="space-y-1">
           <span className="px-1 text-xs font-medium text-slate-500">Mês</span>
           <Select
-            value={month}
-            onValueChange={(nextMonth) => updateDate({ month: nextMonth })}
+            value={parts.month || undefined}
+            onValueChange={(nextMonth) => updateParts({ month: nextMonth })}
             disabled={disabled}
           >
             <SelectTrigger className="bg-white">
@@ -96,8 +122,8 @@ export function DatePicker({
         <div className="space-y-1">
           <span className="px-1 text-xs font-medium text-slate-500">Ano</span>
           <Select
-            value={year}
-            onValueChange={(nextYear) => updateDate({ year: nextYear })}
+            value={parts.year || undefined}
+            onValueChange={(nextYear) => updateParts({ year: nextYear })}
             disabled={disabled}
           >
             <SelectTrigger className="bg-white">
