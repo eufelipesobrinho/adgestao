@@ -16,11 +16,11 @@ import {
 
 function SidebarFooter({ onLogout }: { onLogout: () => void }) {
   return (
-    <div className="border-t border-slate-800 p-3">
+    <div className="border-t border-sidebar-border p-3">
       <button
         type="button"
         onClick={onLogout}
-        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"
+        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
       >
         <LogOut className="h-5 w-5 shrink-0" />
         Sair
@@ -46,7 +46,7 @@ export function AppLayout() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -57,8 +57,8 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-screen bg-background print:bg-white">
-      <aside className="no-print hidden w-72 shrink-0 flex-col bg-slate-900 lg:flex">
-        <div className="flex h-24 items-center border-b border-slate-800 px-6">
+      <aside className="no-print hidden w-72 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
+        <div className="flex h-24 items-center border-b border-sidebar-border px-6">
           <Logo size="lg" />
         </div>
         <div className="flex-1 py-6">
@@ -77,8 +77,11 @@ export function AppLayout() {
                   <span className="sr-only">Abrir menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="flex w-72 flex-col bg-slate-900 p-0">
-                <SheetHeader className="border-b border-slate-800 px-6 py-5">
+              <SheetContent
+                side="left"
+                className="flex w-72 flex-col border-sidebar-border bg-sidebar p-0 text-sidebar-foreground [&>button]:text-sidebar-muted [&>button]:hover:text-sidebar-foreground"
+              >
+                <SheetHeader className="border-b border-sidebar-border px-6 py-5">
                   <SheetTitle className="text-left">
                     <Logo size="lg" />
                   </SheetTitle>
@@ -96,7 +99,7 @@ export function AppLayout() {
             size="sm"
             onClick={handleLogout}
             disabled={isSigningOut}
-            className="text-slate-600"
+            className="text-muted-foreground"
           >
             <LogOut className="h-4 w-4" />
             Sair

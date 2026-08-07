@@ -16,7 +16,8 @@ interface ThemeContextValue {
   resolvedTheme: "light" | "dark"
 }
 
-const STORAGE_KEY = "ad-gestao-theme"
+const STORAGE_KEY = "contabs-theme"
+const LEGACY_STORAGE_KEY = "ad-gestao-theme"
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
@@ -29,7 +30,9 @@ function getSystemTheme(): "light" | "dark" {
 
 function getStoredTheme(): ThemePreference {
   if (typeof window === "undefined") return "system"
-  const stored = localStorage.getItem(STORAGE_KEY)
+  const stored =
+    localStorage.getItem(STORAGE_KEY) ??
+    localStorage.getItem(LEGACY_STORAGE_KEY)
   if (stored === "light" || stored === "dark" || stored === "system") {
     return stored
   }

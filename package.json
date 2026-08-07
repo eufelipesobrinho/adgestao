@@ -1,9 +1,9 @@
 {
-  "name": "ad-gestao",
+  "name": "contabs",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "AD Gestão - SaaS B2B para gestão financeira e de secretaria de igrejas",
+  "description": "Contabs - Instituições Religiosas. SaaS B2B para gestão financeira e de secretaria de igrejas",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

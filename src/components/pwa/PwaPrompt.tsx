@@ -7,7 +7,7 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>
 }
 
-const DISMISS_KEY = "ad-gestao-pwa-dismissed"
+const DISMISS_KEY = "contabs-pwa-dismissed"
 
 export function PwaPrompt() {
   const [deferredPrompt, setDeferredPrompt] =
@@ -65,7 +65,7 @@ export function PwaPrompt() {
           <Download className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-foreground">Instalar AD Gestão</p>
+          <p className="font-semibold text-foreground">Instalar Contabs</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Adicione o app à tela inicial para acesso rápido, como um aplicativo
             nativo.

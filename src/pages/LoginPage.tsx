@@ -51,7 +51,7 @@ export function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-8">
       <div className="mb-10">
-        <Logo size="xl" />
+        <Logo size="xl" surface="login" />
       </div>
 
       <Card className="w-full max-w-md border-border shadow-sm">

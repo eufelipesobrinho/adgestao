@@ -8,12 +8,19 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["adgestao.jpg", "pwa-icon.svg"],
+      includeAssets: [
+        "pwa-icon.svg",
+        "assets/logo-contabs-light-mode.jpg",
+        "assets/logo-contabs-dark-mode.jpg",
+        "assets/logo-contabs-transparent-light.png",
+        "assets/logo-contabs-transparent-dark.png",
+      ],
       manifest: {
-        name: "AD Gestão",
-        short_name: "AD Gestão",
-        description: "Sistema de Gestão Inteligente para Igrejas",
-        theme_color: "#0f172a",
+        name: "Contabs - Instituições Religiosas",
+        short_name: "Contabs",
+        description:
+          "Sistema de gestão financeira e de secretaria para instituições religiosas",
+        theme_color: "#001F3F",
         background_color: "#ffffff",
         display: "standalone",
         start_url: "/dashboard",
@@ -31,7 +38,7 @@ export default defineConfig({
             purpose: "maskable",
           },
           {
-            src: "/adgestao.jpg",
+            src: "/assets/logo-contabs-light-mode.jpg",
             sizes: "512x512",
             type: "image/jpeg",
             purpose: "any",

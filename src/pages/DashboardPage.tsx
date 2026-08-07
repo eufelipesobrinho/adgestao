@@ -115,8 +115,8 @@ export function DashboardPage() {
         ? getCurrencyColorClass("saldo", stats.saldoAtual)
         : "text-slate-900",
       icon: Landmark,
-      iconColor: "text-amber-600",
-      iconBg: "bg-amber-50",
+      iconColor: "text-brand",
+      iconBg: "bg-brand/10",
     },
   ]
 

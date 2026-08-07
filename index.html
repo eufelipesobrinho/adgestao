@@ -5,7 +5,9 @@
     <script>
       ;(function () {
         try {
-          var theme = localStorage.getItem("ad-gestao-theme")
+          var theme =
+            localStorage.getItem("contabs-theme") ||
+            localStorage.getItem("ad-gestao-theme")
           var resolved =
             theme === "dark" ||
             (theme !== "light" &&
@@ -14,14 +16,17 @@
         } catch (e) {}
       })()
     </script>
-    <link rel="icon" type="image/jpeg" href="/adgestao.jpg" />
+    <link rel="icon" type="image/jpeg" href="/assets/logo-contabs-light-mode.jpg" />
     <link rel="apple-touch-icon" href="/pwa-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#001F3F" />
+    <meta name="application-name" content="Contabs" />
+    <meta name="apple-mobile-web-app-title" content="Contabs" />
+    <meta name="description" content="Contabs - Instituições Religiosas. Gestão financeira e de secretaria para igrejas." />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>AD Gestão</title>
+    <title>Contabs - Instituições Religiosas</title>
   </head>
   <body>
     <div id="root"></div>

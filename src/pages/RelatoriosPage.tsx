@@ -110,7 +110,7 @@ export function RelatoriosPage() {
       <div className="relatorio-document mx-auto max-w-5xl space-y-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-10 print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none">
         <header className="border-b border-slate-200 pb-6 print:break-inside-avoid">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <Logo size="lg" className="print:h-14" />
+            <Logo size="lg" surface="print" className="print:h-14" />
             <div className="text-left sm:text-right">
               <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
                 Prestação de Contas
@@ -336,7 +336,7 @@ export function RelatoriosPage() {
             )}
 
             <footer className="border-t border-slate-200 pt-4 text-center text-xs text-slate-500 print:break-inside-avoid">
-              Documento gerado automaticamente pelo AD Gestão — uso exclusivo para
+              Documento gerado automaticamente pelo Contabs — uso exclusivo para
               prestação de contas interna.
             </footer>
           </>

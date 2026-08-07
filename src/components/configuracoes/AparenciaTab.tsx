@@ -43,7 +43,7 @@ export function AparenciaTab() {
         <div className="mb-6">
           <h3 className="text-base font-semibold text-foreground">Tema</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Escolha como o AD Gestão deve ser exibido. Sua preferência é salva
+            Escolha como o Contabs deve ser exibido. Sua preferência é salva
             automaticamente neste dispositivo.
           </p>
         </div>

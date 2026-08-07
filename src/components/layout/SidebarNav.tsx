@@ -34,8 +34,8 @@ export function SidebarNav({ onNavigate }: SidebarNavProps) {
             cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
               isActive
-                ? "bg-amber-500 text-slate-900"
-                : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                ? "bg-brand text-brand-foreground shadow-sm"
+                : "text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-foreground"
             )
           }
         >

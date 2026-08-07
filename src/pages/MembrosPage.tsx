@@ -116,7 +116,7 @@ export function MembrosPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-200/80 bg-amber-50/80 px-4 py-3 shadow-sm"
+            className="flex flex-wrap items-center gap-2 rounded-xl border border-brand/30 bg-brand/10 px-4 py-3 shadow-sm"
           >
             <span className="text-sm text-slate-700">
               Selecionado: <strong>{selectedMembro.nome}</strong>
@@ -174,7 +174,7 @@ export function MembrosPage() {
                           key={membro.id}
                           index={index}
                           data-state={selectedId === membro.id ? "selected" : undefined}
-                          className={selectedId === membro.id ? "bg-amber-50/40" : undefined}
+                          className={selectedId === membro.id ? "bg-brand/10" : undefined}
                         >
                           <TableCell>
                             <Checkbox
@@ -189,7 +189,7 @@ export function MembrosPage() {
                             <button
                               type="button"
                               onClick={() => handleOpenProfile(membro)}
-                              className="font-medium text-slate-900 transition-colors hover:text-amber-600 hover:underline"
+                              className="font-medium text-foreground transition-colors hover:text-brand hover:underline"
                             >
                               {membro.nome}
                             </button>
@@ -214,7 +214,7 @@ export function MembrosPage() {
                     return (
                       <MobileCard
                         key={membro.id}
-                        className={isSelected ? "border-amber-300 bg-amber-50/50" : undefined}
+                        className={isSelected ? "border-brand/40 bg-brand/10" : undefined}
                         onClick={() => handleOpenProfile(membro)}
                       >
                         <div className="flex items-start gap-3">

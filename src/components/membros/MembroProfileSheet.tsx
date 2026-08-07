@@ -57,10 +57,10 @@ export function MembroProfileSheet({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col overflow-hidden p-0">
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 px-6 pb-8 pt-6 text-white">
+        <div className="bg-gradient-to-br from-[hsl(210_100%_12%)] to-[hsl(210_70%_18%)] px-6 pb-8 pt-6 text-white">
           <SheetHeader className="space-y-4 text-left">
             <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500 text-xl font-bold text-slate-900 shadow-lg">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-xl font-bold text-brand-foreground shadow-lg">
                 {initials}
               </div>
               <div>
