@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom"
 import { Toaster } from "sonner"
 import { registerSW } from "virtual:pwa-register"
 import { AuthProvider } from "@/contexts/AuthContext"
+import { NavStyleProvider } from "@/contexts/NavStyleContext"
 import { PrivacyProvider } from "@/contexts/PrivacyContext"
 import { ThemeProvider } from "@/contexts/ThemeContext"
 import { router } from "@/routes"
@@ -25,8 +26,10 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <AuthProvider>
         <PrivacyProvider>
-          <RouterProvider router={router} />
-          <Toaster position="top-right" richColors closeButton />
+          <NavStyleProvider>
+            <RouterProvider router={router} />
+            <Toaster position="top-right" richColors closeButton />
+          </NavStyleProvider>
         </PrivacyProvider>
       </AuthProvider>
     </ThemeProvider>

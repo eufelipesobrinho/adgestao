@@ -13,7 +13,7 @@ export async function fetchTransacoesByMonth(
   const { data, error } = await supabase
     .from("transacoes")
     .select(
-      "*, membros(nome), departamentos(nome)"
+      "*, membros(nome), departamentos(nome), bank_accounts(nome_banco), credit_cards(nome_cartao)"
     )
     .gte("data_transacao", start)
     .lte("data_transacao", end)
@@ -38,6 +38,8 @@ export async function createEntrada(
       membro_id:
         formData.subtipo === "Oferta" ? null : formData.membro_id || null,
       departamento_id: formData.departamento_id || null,
+      bank_account_id: formData.bank_account_id || null,
+      credit_card_id: formData.credit_card_id || null,
     })
     .select()
     .single()
@@ -60,6 +62,8 @@ export async function createSaida(
       data_transacao: formData.data_transacao,
       membro_id: null,
       departamento_id: formData.departamento_id || null,
+      bank_account_id: formData.bank_account_id || null,
+      credit_card_id: formData.credit_card_id || null,
     })
     .select()
     .single()

@@ -1,22 +1,6 @@
 import { NavLink } from "react-router-dom"
-import {
-  LayoutDashboard,
-  Users,
-  Wallet,
-  Building2,
-  FileText,
-  Settings,
-} from "lucide-react"
+import { NAV_ITEMS } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
-
-const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/membros", label: "Membros", icon: Users },
-  { to: "/financeiro", label: "Financeiro", icon: Wallet },
-  { to: "/departamentos", label: "Departamentos", icon: Building2 },
-  { to: "/relatorios", label: "Relatórios", icon: FileText },
-  { to: "/configuracoes", label: "Configurações", icon: Settings },
-]
 
 interface SidebarNavProps {
   onNavigate?: () => void
@@ -25,7 +9,7 @@ interface SidebarNavProps {
 export function SidebarNav({ onNavigate }: SidebarNavProps) {
   return (
     <nav className="flex flex-col gap-1 px-3">
-      {navItems.map((item) => (
+      {NAV_ITEMS.map((item) => (
         <NavLink
           key={item.to}
           to={item.to}
@@ -40,7 +24,7 @@ export function SidebarNav({ onNavigate }: SidebarNavProps) {
           }
         >
           <item.icon className="h-5 w-5 shrink-0" />
-          {item.label}
+          <span className="truncate">{item.label}</span>
         </NavLink>
       ))}
     </nav>

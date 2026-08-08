@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase"
 import { fetchDepartamentos } from "@/services/departamentos"
 import { createSaida } from "@/services/transacoes"
 import type { SaidaFormData } from "@/types/transacao"
+import { PaymentMethodSelect } from "@/components/financeiro/PaymentMethodSelect"
 import { Button } from "@/components/ui/button"
 import { DatePicker } from "@/components/ui/date-picker"
 import { FormField, FormSection } from "@/components/ui/form-field"
@@ -30,6 +31,8 @@ const initialFormData: SaidaFormData = {
   data_transacao: "",
   descricao: "",
   departamento_id: "",
+  bank_account_id: "",
+  credit_card_id: "",
 }
 
 interface AddSaidaSheetProps {
@@ -110,10 +113,12 @@ export function AddSaidaSheet({
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col overflow-hidden p-0">
-        <div className="border-b border-red-100 bg-gradient-to-r from-red-50/60 to-white px-6 py-6">
+        <div className="border-b border-red-200/60 bg-gradient-to-br from-red-100 via-red-50 to-white px-6 py-6 dark:border-red-900/40 dark:from-red-950 dark:via-[hsl(210_100%_10%)] dark:to-[hsl(210_100%_12%)]">
           <SheetHeader className="space-y-1 text-left">
-            <SheetTitle className="text-xl text-foreground">Nova Saída</SheetTitle>
-            <SheetDescription>
+            <SheetTitle className="text-xl font-semibold text-red-950 dark:text-white">
+              Nova Saída
+            </SheetTitle>
+            <SheetDescription className="text-red-900/80 dark:text-red-100/85">
               Registre despesas e saídas operacionais da igreja.
             </SheetDescription>
           </SheetHeader>
@@ -198,6 +203,19 @@ export function AddSaidaSheet({
                     required
                   />
                 </FormField>
+
+                <PaymentMethodSelect
+                  bankAccountId={formData.bank_account_id}
+                  creditCardId={formData.credit_card_id}
+                  disabled={isSubmitting}
+                  onChange={({ bank_account_id, credit_card_id }) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      bank_account_id,
+                      credit_card_id,
+                    }))
+                  }
+                />
               </FormSection>
             )}
           </div>

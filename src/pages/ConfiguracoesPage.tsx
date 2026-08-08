@@ -1,5 +1,6 @@
-import { Building2, Shield, Users } from "lucide-react"
+import { Building2, Navigation, Shield, Users } from "lucide-react"
 import { GeralTab } from "@/components/configuracoes/GeralTab"
+import { NavegacaoTab } from "@/components/configuracoes/NavegacaoTab"
 import { SegurancaTab } from "@/components/configuracoes/SegurancaTab"
 import { UsuariosTab } from "@/components/configuracoes/UsuariosTab"
 import { FadeIn } from "@/components/ui/motion"
@@ -14,24 +15,27 @@ export function ConfiguracoesPage() {
             Configurações
           </h1>
           <p className="mt-1 text-muted-foreground">
-            Gerencie o perfil da igreja, segurança e usuários. O tema claro/escuro
-            fica no ícone no topo da tela.
+            Gerencie perfil, navegação, segurança e usuários
           </p>
         </div>
       </FadeIn>
 
       <FadeIn delay={0.05}>
         <Tabs defaultValue="geral" className="w-full">
-          <TabsList className="grid h-auto w-full grid-cols-3 gap-1">
-            <TabsTrigger value="geral" className="gap-2">
+          <TabsList className="scrollbar-none flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-4">
+            <TabsTrigger value="geral" className="shrink-0 gap-2 sm:flex-1">
               <Building2 className="h-4 w-4 shrink-0" />
               <span>Geral</span>
             </TabsTrigger>
-            <TabsTrigger value="seguranca" className="gap-2">
+            <TabsTrigger value="navegacao" className="shrink-0 gap-2 sm:flex-1">
+              <Navigation className="h-4 w-4 shrink-0" />
+              <span>Navegação</span>
+            </TabsTrigger>
+            <TabsTrigger value="seguranca" className="shrink-0 gap-2 sm:flex-1">
               <Shield className="h-4 w-4 shrink-0" />
               <span>Segurança</span>
             </TabsTrigger>
-            <TabsTrigger value="usuarios" className="gap-2">
+            <TabsTrigger value="usuarios" className="shrink-0 gap-2 sm:flex-1">
               <Users className="h-4 w-4 shrink-0" />
               <span>Usuários</span>
             </TabsTrigger>
@@ -39,6 +43,9 @@ export function ConfiguracoesPage() {
 
           <TabsContent value="geral">
             <GeralTab />
+          </TabsContent>
+          <TabsContent value="navegacao">
+            <NavegacaoTab />
           </TabsContent>
           <TabsContent value="seguranca">
             <SegurancaTab />

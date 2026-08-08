@@ -5,6 +5,7 @@ import { DashboardPage } from "@/pages/DashboardPage"
 import { MembrosPage } from "@/pages/MembrosPage"
 import { FinanceiroPage } from "@/pages/FinanceiroPage"
 import { DepartamentosPage } from "@/pages/DepartamentosPage"
+import { ContasPage } from "@/pages/ContasPage"
 import { RelatoriosPage } from "@/pages/RelatoriosPage"
 import { ConfiguracoesPage } from "@/pages/ConfiguracoesPage"
 import { ResetPasswordPage } from "@/pages/ResetPasswordPage"
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "/financeiro",
         element: <FinanceiroPage />,
+      },
+      {
+        path: "/contas",
+        element: <ContasPage />,
       },
       {
         path: "/departamentos",
