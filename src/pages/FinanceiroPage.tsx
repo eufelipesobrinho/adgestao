@@ -11,6 +11,8 @@ import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { TransacaoDestinoBadge } from "@/components/financeiro/TransacaoDestinoBadge"
 import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { getCurrencyColorClass } from "@/lib/finance-ui"
+import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
+import { SensitiveValue } from "@/components/privacy/SensitiveValue"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -69,7 +71,8 @@ export function FinanceiroPage() {
               Controle entradas, saídas e o fluxo de caixa da igreja
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <PrivacyToggle />
             <Button variant="gold" onClick={() => setEntradaOpen(true)}>
               <ArrowUpRight className="h-4 w-4" />
               Nova Entrada
@@ -103,7 +106,7 @@ export function FinanceiroPage() {
                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
               ) : (
                 <p className={`text-2xl font-bold ${getCurrencyColorClass("entrada")}`}>
-                  {formatCurrency(totalEntradas)}
+                  <SensitiveValue>{formatCurrency(totalEntradas)}</SensitiveValue>
                 </p>
               )}
             </CardContent>
@@ -121,7 +124,7 @@ export function FinanceiroPage() {
                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
               ) : (
                 <p className={`text-2xl font-bold ${getCurrencyColorClass("saida")}`}>
-                  {formatCurrency(totalSaidas)}
+                  <SensitiveValue>{formatCurrency(totalSaidas)}</SensitiveValue>
                 </p>
               )}
             </CardContent>
@@ -181,8 +184,11 @@ export function FinanceiroPage() {
                               transacao.tipo === "Entrada" ? "entrada" : "saida"
                             )}`}
                           >
-                            {transacao.tipo === "Entrada" ? "+" : "-"}
-                            {formatCurrency(Number(transacao.valor))}
+                            <SensitiveValue
+                              prefix={transacao.tipo === "Entrada" ? "+" : "-"}
+                            >
+                              {formatCurrency(Number(transacao.valor))}
+                            </SensitiveValue>
                           </TableCell>
                           <TableCell className="text-right text-slate-500">
                             {formatDateBR(transacao.data_transacao)}
@@ -205,8 +211,11 @@ export function FinanceiroPage() {
                             transacao.tipo === "Entrada" ? "entrada" : "saida"
                           )}`}
                         >
-                          {transacao.tipo === "Entrada" ? "+" : "-"}
-                          {formatCurrency(Number(transacao.valor))}
+                          <SensitiveValue
+                            prefix={transacao.tipo === "Entrada" ? "+" : "-"}
+                          >
+                            {formatCurrency(Number(transacao.valor))}
+                          </SensitiveValue>
                         </p>
                       </div>
                       <div className="mt-3 space-y-2 border-t border-border pt-3">

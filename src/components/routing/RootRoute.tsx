@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { LoginPage } from "@/pages/LoginPage"
 
 export function RootRoute() {
-  const { isAuthenticated, isLoading } = useAuth()
+  const { isAuthenticated, isLoading, isPasswordRecovery } = useAuth()
 
   if (isLoading) {
     return (
@@ -12,6 +12,10 @@ export function RootRoute() {
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     )
+  }
+
+  if (isPasswordRecovery) {
+    return <Navigate to="/redefinir-senha" replace />
   }
 
   if (isAuthenticated) {

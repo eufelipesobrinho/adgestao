@@ -7,6 +7,7 @@ import { FinanceiroPage } from "@/pages/FinanceiroPage"
 import { DepartamentosPage } from "@/pages/DepartamentosPage"
 import { RelatoriosPage } from "@/pages/RelatoriosPage"
 import { ConfiguracoesPage } from "@/pages/ConfiguracoesPage"
+import { ResetPasswordPage } from "@/pages/ResetPasswordPage"
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Navigate to="/" replace />,
+  },
+  {
+    path: "/redefinir-senha",
+    element: <ResetPasswordPage />,
   },
   {
     element: <AppLayout />,

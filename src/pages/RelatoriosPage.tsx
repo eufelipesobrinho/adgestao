@@ -4,6 +4,8 @@ import { toast } from "sonner"
 import { Logo } from "@/components/brand/Logo"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
+import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
+import { SensitiveValue } from "@/components/privacy/SensitiveValue"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FadeIn } from "@/components/ui/motion"
@@ -87,10 +89,13 @@ export function RelatoriosPage() {
               Dossiê executivo para prestação de contas ao Pastor
             </p>
           </div>
-          <Button onClick={handlePrint} className="shrink-0">
-            <Printer className="h-4 w-4" />
-            Imprimir Relatório
-          </Button>
+          <div className="flex items-center gap-2">
+            <PrivacyToggle />
+            <Button onClick={handlePrint} className="shrink-0">
+              <Printer className="h-4 w-4" />
+              Imprimir Relatório
+            </Button>
+          </div>
         </div>
       </FadeIn>
 
@@ -110,7 +115,7 @@ export function RelatoriosPage() {
       <div className="relatorio-document mx-auto max-w-5xl space-y-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-10 print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none">
         <header className="border-b border-slate-200 pb-6 print:break-inside-avoid">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <Logo size="lg" surface="print" className="print:h-14" />
+            <Logo size="lg" surface="print" className="print:h-20" />
             <div className="text-left sm:text-right">
               <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
                 Prestação de Contas
@@ -146,7 +151,9 @@ export function RelatoriosPage() {
                     <p
                       className={`text-2xl font-bold ${getCurrencyColorClass("entrada")}`}
                     >
-                      {formatCurrency(relatorio.caixaGeral.totalEntradas)}
+                      <SensitiveValue>
+                        {formatCurrency(relatorio.caixaGeral.totalEntradas)}
+                      </SensitiveValue>
                     </p>
                   </CardContent>
                 </Card>
@@ -160,7 +167,9 @@ export function RelatoriosPage() {
                     <p
                       className={`text-2xl font-bold ${getCurrencyColorClass("saida")}`}
                     >
-                      {formatCurrency(relatorio.caixaGeral.totalSaidas)}
+                      <SensitiveValue>
+                        {formatCurrency(relatorio.caixaGeral.totalSaidas)}
+                      </SensitiveValue>
                     </p>
                   </CardContent>
                 </Card>
@@ -177,7 +186,9 @@ export function RelatoriosPage() {
                         relatorio.caixaGeral.saldoFinal
                       )}`}
                     >
-                      {formatCurrency(relatorio.caixaGeral.saldoFinal)}
+                      <SensitiveValue>
+                        {formatCurrency(relatorio.caixaGeral.saldoFinal)}
+                      </SensitiveValue>
                     </p>
                   </CardContent>
                 </Card>
@@ -223,12 +234,16 @@ export function RelatoriosPage() {
                                 <TableCell
                                   className={`text-right font-medium ${getCurrencyColorClass("entrada")}`}
                                 >
-                                  {formatCurrency(dep.totalArrecadado)}
+                                  <SensitiveValue>
+                                    {formatCurrency(dep.totalArrecadado)}
+                                  </SensitiveValue>
                                 </TableCell>
                                 <TableCell
                                   className={`text-right font-medium ${getCurrencyColorClass("saida")}`}
                                 >
-                                  {formatCurrency(dep.totalGasto)}
+                                  <SensitiveValue>
+                                    {formatCurrency(dep.totalGasto)}
+                                  </SensitiveValue>
                                 </TableCell>
                               </TableRow>
                             ))}
@@ -245,12 +260,16 @@ export function RelatoriosPage() {
                             <div className="mt-3 space-y-2 border-t border-border pt-3">
                               <MobileDetailRow label="Arrecadado">
                                 <span className={getCurrencyColorClass("entrada")}>
-                                  {formatCurrency(dep.totalArrecadado)}
+                                  <SensitiveValue>
+                                    {formatCurrency(dep.totalArrecadado)}
+                                  </SensitiveValue>
                                 </span>
                               </MobileDetailRow>
                               <MobileDetailRow label="Gasto">
                                 <span className={getCurrencyColorClass("saida")}>
-                                  {formatCurrency(dep.totalGasto)}
+                                  <SensitiveValue>
+                                    {formatCurrency(dep.totalGasto)}
+                                  </SensitiveValue>
                                 </span>
                               </MobileDetailRow>
                             </div>
@@ -293,8 +312,11 @@ export function RelatoriosPage() {
                                   transacao.tipo === "Entrada" ? "entrada" : "saida"
                                 )}`}
                               >
-                                {transacao.tipo === "Entrada" ? "+" : "-"}
-                                {formatCurrency(Number(transacao.valor))}
+                                <SensitiveValue
+                                  prefix={transacao.tipo === "Entrada" ? "+" : "-"}
+                                >
+                                  {formatCurrency(Number(transacao.valor))}
+                                </SensitiveValue>
                               </TableCell>
                             </TableRow>
                           ))}
@@ -314,8 +336,11 @@ export function RelatoriosPage() {
                                 transacao.tipo === "Entrada" ? "entrada" : "saida"
                               )}`}
                             >
-                              {transacao.tipo === "Entrada" ? "+" : "-"}
-                              {formatCurrency(Number(transacao.valor))}
+                              <SensitiveValue
+                                prefix={transacao.tipo === "Entrada" ? "+" : "-"}
+                              >
+                                {formatCurrency(Number(transacao.valor))}
+                              </SensitiveValue>
                             </p>
                           </div>
                           <div className="mt-3 space-y-2 border-t border-border pt-3">

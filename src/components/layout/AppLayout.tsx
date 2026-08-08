@@ -31,7 +31,7 @@ function SidebarFooter({ onLogout }: { onLogout: () => void }) {
 
 export function AppLayout() {
   const navigate = useNavigate()
-  const { isAuthenticated, isLoading, signOut } = useAuth()
+  const { isAuthenticated, isLoading, isPasswordRecovery, signOut } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isSigningOut, setIsSigningOut] = useState(false)
 
@@ -51,14 +51,18 @@ export function AppLayout() {
     )
   }
 
+  if (isPasswordRecovery) {
+    return <Navigate to="/redefinir-senha" replace />
+  }
+
   if (!isAuthenticated) {
     return <Navigate to="/" replace />
   }
 
   return (
     <div className="flex min-h-screen bg-background print:bg-white">
-      <aside className="no-print hidden w-72 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
-        <div className="flex h-24 items-center border-b border-sidebar-border px-6">
+      <aside className="no-print hidden w-80 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
+        <div className="flex h-32 items-center justify-center border-b border-sidebar-border px-4 py-3">
           <Logo size="lg" />
         </div>
         <div className="flex-1 py-6">
@@ -68,7 +72,7 @@ export function AppLayout() {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="no-print sticky top-0 z-40 flex h-[4.5rem] shrink-0 items-center justify-between border-b border-border bg-card px-3 lg:hidden">
+        <header className="no-print sticky top-0 z-40 flex h-20 shrink-0 items-center justify-between border-b border-border bg-card px-3 lg:hidden">
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
@@ -79,10 +83,10 @@ export function AppLayout() {
               </SheetTrigger>
               <SheetContent
                 side="left"
-                className="flex w-72 flex-col border-sidebar-border bg-sidebar p-0 text-sidebar-foreground [&>button]:text-sidebar-muted [&>button]:hover:text-sidebar-foreground"
+                className="flex w-80 flex-col border-sidebar-border bg-sidebar p-0 text-sidebar-foreground [&>button]:text-sidebar-muted [&>button]:hover:text-sidebar-foreground"
               >
-                <SheetHeader className="border-b border-sidebar-border px-6 py-5">
-                  <SheetTitle className="text-left">
+                <SheetHeader className="border-b border-sidebar-border px-4 py-4">
+                  <SheetTitle className="flex justify-center text-left">
                     <Logo size="lg" />
                   </SheetTitle>
                 </SheetHeader>

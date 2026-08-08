@@ -34,6 +34,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
+import { SensitiveValue } from "@/components/privacy/SensitiveValue"
 import { FadeIn, AnimatedTableRow } from "@/components/ui/motion"
 import { TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Table, TableBody } from "@/components/ui/table"
@@ -83,6 +85,7 @@ export function DashboardPage() {
     {
       title: "Membros Ativos",
       value: stats ? String(stats.membrosAtivos) : "—",
+      sensitive: false,
       subtitle: undefined,
       valueClassName: "text-slate-900",
       icon: Users,
@@ -92,6 +95,7 @@ export function DashboardPage() {
     {
       title: "Entradas do Mês",
       value: stats ? formatCurrency(stats.entradasMes) : "—",
+      sensitive: true,
       subtitle: "Caixa Geral · Dízimos & Ofertas",
       valueClassName: getCurrencyColorClass("entrada"),
       icon: ArrowUpRight,
@@ -101,6 +105,7 @@ export function DashboardPage() {
     {
       title: "Saídas do Mês",
       value: stats ? formatCurrency(stats.saidasMes) : "—",
+      sensitive: true,
       subtitle: "Caixa Geral · Despesas operacionais",
       valueClassName: getCurrencyColorClass("saida"),
       icon: ArrowDownRight,
@@ -110,6 +115,7 @@ export function DashboardPage() {
     {
       title: "Saldo Atual",
       value: stats ? formatCurrency(stats.saldoAtual) : "—",
+      sensitive: true,
       subtitle: "Caixa Geral · Atualizado hoje",
       valueClassName: stats
         ? getCurrencyColorClass("saldo", stats.saldoAtual)
@@ -131,28 +137,31 @@ export function DashboardPage() {
             <p className="mt-1 capitalize text-muted-foreground">{today}</p>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="gold">
-                Novo Registro
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => navigate("/membros")}>
-                <UserPlus className="h-4 w-4" />
-                Novo Membro
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate("/financeiro")}>
-                <Plus className="h-4 w-4" />
-                Nova Entrada
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate("/financeiro")}>
-                <Minus className="h-4 w-4" />
-                Nova Saída
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-2">
+            <PrivacyToggle />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="gold">
+                  Novo Registro
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => navigate("/membros")}>
+                  <UserPlus className="h-4 w-4" />
+                  Novo Membro
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/financeiro")}>
+                  <Plus className="h-4 w-4" />
+                  Nova Entrada
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/financeiro")}>
+                  <Minus className="h-4 w-4" />
+                  Nova Saída
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </FadeIn>
 
@@ -176,7 +185,11 @@ export function DashboardPage() {
                 ) : (
                   <>
                     <p className={`text-2xl font-bold ${card.valueClassName}`}>
-                      {card.value}
+                      {card.sensitive ? (
+                        <SensitiveValue>{card.value}</SensitiveValue>
+                      ) : (
+                        card.value
+                      )}
                     </p>
                     {card.subtitle && (
                       <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
@@ -226,8 +239,11 @@ export function DashboardPage() {
                             activity.tipo === "Entrada" ? "entrada" : "saida"
                           )}`}
                         >
-                          {activity.tipo === "Entrada" ? "+" : "-"}
-                          {formatCurrency(Number(activity.valor))}
+                          <SensitiveValue
+                            prefix={activity.tipo === "Entrada" ? "+" : "-"}
+                          >
+                            {formatCurrency(Number(activity.valor))}
+                          </SensitiveValue>
                         </TableCell>
                         <TableCell className="text-right text-slate-500">
                           {formatDateBR(activity.data_transacao)}

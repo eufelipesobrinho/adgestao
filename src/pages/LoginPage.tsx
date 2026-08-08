@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { Logo } from "@/components/brand/Logo"
+import { ForgotPasswordDialog } from "@/components/auth/ForgotPasswordDialog"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,6 +26,8 @@ export function LoginPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [forgotOpen, setForgotOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -51,7 +54,7 @@ export function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-8">
       <div className="mb-10">
-        <Logo size="xl" surface="login" />
+        <Logo size="xl" />
       </div>
 
       <Card className="w-full max-w-md border-border shadow-sm">
@@ -90,16 +93,32 @@ export function LoginPage() {
               >
                 Senha
               </label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={isSubmitting}
-                required
-                autoComplete="current-password"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={isSubmitting}
+                  required
+                  autoComplete="current-password"
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  tabIndex={-1}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <Button
               type="submit"
@@ -119,6 +138,7 @@ export function LoginPage() {
             <div className="text-center">
               <button
                 type="button"
+                onClick={() => setForgotOpen(true)}
                 className="text-sm text-muted-foreground hover:text-foreground hover:underline"
               >
                 Esqueci minha senha
@@ -127,6 +147,12 @@ export function LoginPage() {
           </form>
         </CardContent>
       </Card>
+
+      <ForgotPasswordDialog
+        open={forgotOpen}
+        onOpenChange={setForgotOpen}
+        defaultEmail={email}
+      />
     </div>
   )
 }

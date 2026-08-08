@@ -15,6 +15,8 @@ interface AuthContextValue {
   user: User | null
   isAuthenticated: boolean
   isLoading: boolean
+  isPasswordRecovery: boolean
+  clearPasswordRecovery: () => void
   signOut: () => Promise<void>
 }
 
@@ -23,6 +25,7 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
@@ -32,17 +35,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+    } = supabase.auth.onAuthStateChange((event, currentSession) => {
       setSession(currentSession)
       setIsLoading(false)
+
+      if (event === "PASSWORD_RECOVERY") {
+        setIsPasswordRecovery(true)
+      }
+
+      if (event === "SIGNED_OUT") {
+        setIsPasswordRecovery(false)
+      }
     })
 
     return () => subscription.unsubscribe()
   }, [])
 
+  const clearPasswordRecovery = useCallback(() => {
+    setIsPasswordRecovery(false)
+  }, [])
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut()
     setSession(null)
+    setIsPasswordRecovery(false)
   }, [])
 
   const value = useMemo(
@@ -51,9 +67,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: session?.user ?? null,
       isAuthenticated: !!session,
       isLoading,
+      isPasswordRecovery,
+      clearPasswordRecovery,
       signOut,
     }),
-    [session, isLoading, signOut]
+    [session, isLoading, isPasswordRecovery, clearPasswordRecovery, signOut]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
