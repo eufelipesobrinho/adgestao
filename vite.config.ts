@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 /** Incrementar este valor força refresh de manifesto/ícones em PWAs instaladas */
-const PWA_ASSET_VERSION = "v20260812"
+const PWA_ASSET_VERSION = "v20260812b"
 
 export default defineConfig({
   plugins: [
@@ -24,7 +24,7 @@ export default defineConfig({
       ],
       manifest: {
         id: `/?homescreen=contabs-${PWA_ASSET_VERSION}`,
-        name: "Contabs - Instituições Religiosas",
+        name: "Contabs",
         short_name: "Contabs",
         description:
           "Sistema de gestão financeira e de secretaria para instituições religiosas",
