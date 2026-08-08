@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { Logo } from "@/components/brand/Logo"
 import { SidebarNav } from "@/components/layout/SidebarNav"
 import { PwaPrompt } from "@/components/pwa/PwaPrompt"
+import { ThemeToggle } from "@/components/theme/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -72,8 +73,8 @@ export function AppLayout() {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="no-print sticky top-0 z-40 flex h-20 shrink-0 items-center justify-between border-b border-border bg-card px-3 lg:hidden">
-          <div className="flex min-w-0 flex-1 items-center gap-2">
+        <header className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-border bg-card/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-card/80 lg:h-14 lg:px-6">
+          <div className="flex min-w-0 flex-1 items-center gap-2 lg:hidden">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="shrink-0">
@@ -98,16 +99,22 @@ export function AppLayout() {
             </Sheet>
             <Logo size="md" />
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLogout}
-            disabled={isSigningOut}
-            className="text-muted-foreground"
-          >
-            <LogOut className="h-4 w-4" />
-            Sair
-          </Button>
+
+          <div className="hidden flex-1 lg:block" />
+
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              disabled={isSigningOut}
+              className="text-muted-foreground"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </Button>
+          </div>
         </header>
 
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-3 md:p-8 print:overflow-visible print:p-0">

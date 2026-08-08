@@ -99,9 +99,9 @@ export function DepartamentoSheet({
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col overflow-hidden p-0">
-        <div className="border-b border-slate-100 bg-slate-50/80 px-6 py-6">
+        <div className="border-b border-border bg-muted/50 px-6 py-6">
           <SheetHeader className="space-y-1 text-left">
-            <SheetTitle className="text-xl text-slate-900">
+            <SheetTitle className="text-xl text-foreground">
               {isEditing ? "Editar Departamento" : "Novo Departamento"}
             </SheetTitle>
             <SheetDescription>
@@ -127,7 +127,7 @@ export function DepartamentoSheet({
                   }
                   placeholder="Ex: Jovens, Missões, Louvor"
                   disabled={isSubmitting}
-                  className="border-slate-200 bg-white"
+                  className="border-border bg-card"
                   required
                 />
               </FormField>
@@ -146,14 +146,14 @@ export function DepartamentoSheet({
                   disabled={isSubmitting}
                   rows={4}
                   className={cn(
-                    "flex w-full resize-none rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    "flex w-full resize-none rounded-md border border-border bg-card px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   )}
                 />
               </FormField>
             </FormSection>
           </div>
 
-          <div className="flex gap-2 border-t border-slate-100 bg-white px-6 py-4">
+          <div className="flex gap-2 border-t border-border bg-card px-6 py-4">
             <Button
               type="button"
               variant="outline"

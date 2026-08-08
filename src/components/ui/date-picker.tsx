@@ -77,16 +77,16 @@ export function DatePicker({
       {label && <Label htmlFor={id}>{label}</Label>}
       <div
         id={id}
-        className="grid grid-cols-3 gap-2 rounded-lg border border-slate-200 bg-slate-50/50 p-2"
+        className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-muted/50 p-2"
       >
         <div className="space-y-1">
-          <span className="px-1 text-xs font-medium text-slate-500">Dia</span>
+          <span className="px-1 text-xs font-medium text-muted-foreground">Dia</span>
           <Select
             value={parts.day || undefined}
             onValueChange={(nextDay) => updateParts({ day: nextDay })}
             disabled={disabled}
           >
-            <SelectTrigger className="bg-white">
+            <SelectTrigger className="bg-card">
               <SelectValue placeholder="Dia" />
             </SelectTrigger>
             <SelectContent>
@@ -100,13 +100,13 @@ export function DatePicker({
         </div>
 
         <div className="space-y-1">
-          <span className="px-1 text-xs font-medium text-slate-500">Mês</span>
+          <span className="px-1 text-xs font-medium text-muted-foreground">Mês</span>
           <Select
             value={parts.month || undefined}
             onValueChange={(nextMonth) => updateParts({ month: nextMonth })}
             disabled={disabled}
           >
-            <SelectTrigger className="bg-white">
+            <SelectTrigger className="bg-card">
               <SelectValue placeholder="Mês" />
             </SelectTrigger>
             <SelectContent>
@@ -120,13 +120,13 @@ export function DatePicker({
         </div>
 
         <div className="space-y-1">
-          <span className="px-1 text-xs font-medium text-slate-500">Ano</span>
+          <span className="px-1 text-xs font-medium text-muted-foreground">Ano</span>
           <Select
             value={parts.year || undefined}
             onValueChange={(nextYear) => updateParts({ year: nextYear })}
             disabled={disabled}
           >
-            <SelectTrigger className="bg-white">
+            <SelectTrigger className="bg-card">
               <SelectValue placeholder="Ano" />
             </SelectTrigger>
             <SelectContent className="max-h-56">

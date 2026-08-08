@@ -35,7 +35,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
-import { SensitiveValue } from "@/components/privacy/SensitiveValue"
+import {
+  SensitiveText,
+  SensitiveValue,
+} from "@/components/privacy/SensitiveValue"
 import { FadeIn, AnimatedTableRow } from "@/components/ui/motion"
 import { TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Table, TableBody } from "@/components/ui/table"
@@ -52,7 +55,7 @@ function formatToday(): string {
 function CardSkeleton() {
   return (
     <div className="flex h-10 items-center">
-      <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
     </div>
   )
 }
@@ -87,10 +90,10 @@ export function DashboardPage() {
       value: stats ? String(stats.membrosAtivos) : "—",
       sensitive: false,
       subtitle: undefined,
-      valueClassName: "text-slate-900",
+      valueClassName: "text-foreground",
       icon: Users,
-      iconColor: "text-blue-600",
-      iconBg: "bg-blue-50",
+      iconColor: "text-blue-600 dark:text-blue-400",
+      iconBg: "bg-blue-50 dark:bg-blue-950/50",
     },
     {
       title: "Entradas do Mês",
@@ -99,8 +102,8 @@ export function DashboardPage() {
       subtitle: "Caixa Geral · Dízimos & Ofertas",
       valueClassName: getCurrencyColorClass("entrada"),
       icon: ArrowUpRight,
-      iconColor: "text-emerald-600",
-      iconBg: "bg-emerald-50",
+      iconColor: "text-emerald-600 dark:text-emerald-400",
+      iconBg: "bg-emerald-50 dark:bg-emerald-950/50",
     },
     {
       title: "Saídas do Mês",
@@ -109,8 +112,8 @@ export function DashboardPage() {
       subtitle: "Caixa Geral · Despesas operacionais",
       valueClassName: getCurrencyColorClass("saida"),
       icon: ArrowDownRight,
-      iconColor: "text-red-500",
-      iconBg: "bg-red-50",
+      iconColor: "text-red-600 dark:text-red-400",
+      iconBg: "bg-red-50 dark:bg-red-950/50",
     },
     {
       title: "Saldo Atual",
@@ -119,7 +122,7 @@ export function DashboardPage() {
       subtitle: "Caixa Geral · Atualizado hoje",
       valueClassName: stats
         ? getCurrencyColorClass("saldo", stats.saldoAtual)
-        : "text-slate-900",
+        : "text-foreground",
       icon: Landmark,
       iconColor: "text-brand",
       iconBg: "bg-brand/10",
@@ -168,9 +171,9 @@ export function DashboardPage() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {summaryCards.map((card, index) => (
           <FadeIn key={card.title} delay={index * 0.05}>
-            <Card className="border-slate-200/80 shadow-sm transition-shadow hover:shadow-md">
+            <Card className="border-border shadow-sm transition-shadow hover:shadow-md">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-600">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                   {card.title}
                 </CardTitle>
                 <div
@@ -192,7 +195,13 @@ export function DashboardPage() {
                       )}
                     </p>
                     {card.subtitle && (
-                      <p className="mt-1 text-xs text-slate-500">{card.subtitle}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {card.sensitive ? (
+                          <SensitiveText>{card.subtitle}</SensitiveText>
+                        ) : (
+                          card.subtitle
+                        )}
+                      </p>
                     )}
                   </>
                 )}
@@ -203,17 +212,17 @@ export function DashboardPage() {
       </div>
 
       <FadeIn delay={0.2}>
-        <Card className="border-slate-200/80 shadow-sm">
+        <Card className="border-border shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Atividades Recentes</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
               <div className="flex items-center justify-center py-16">
-                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
               </div>
             ) : !stats?.atividadesRecentes.length ? (
-              <div className="py-16 text-center text-slate-500">
+              <div className="py-16 text-center text-muted-foreground">
                 Nenhuma transação registrada ainda.
               </div>
             ) : (
@@ -231,7 +240,9 @@ export function DashboardPage() {
                     {stats.atividadesRecentes.map((activity, index) => (
                       <AnimatedTableRow key={activity.id} index={index}>
                         <TableCell className="font-medium">
-                          {activity.descricao ?? "—"}
+                          <SensitiveText>
+                            {activity.descricao ?? "—"}
+                          </SensitiveText>
                         </TableCell>
                         <TableCell>{activity.tipo}</TableCell>
                         <TableCell
@@ -245,7 +256,7 @@ export function DashboardPage() {
                             {formatCurrency(Number(activity.valor))}
                           </SensitiveValue>
                         </TableCell>
-                        <TableCell className="text-right text-slate-500">
+                        <TableCell className="text-right text-muted-foreground">
                           {formatDateBR(activity.data_transacao)}
                         </TableCell>
                       </AnimatedTableRow>

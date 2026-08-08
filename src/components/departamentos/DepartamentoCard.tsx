@@ -38,10 +38,10 @@ export function DepartamentoCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: staggerDelay(index, 0.06) }}
     >
-      <Card className="border-slate-200/80 shadow-sm transition-shadow hover:shadow-md">
+      <Card className="border-border shadow-sm transition-shadow hover:shadow-md">
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
           <div className="min-w-0 flex-1 pr-2">
-            <h3 className="truncate text-lg font-semibold text-slate-900">
+            <h3 className="truncate text-lg font-semibold text-foreground">
               {departamento.nome}
             </h3>
           </div>
@@ -50,7 +50,7 @@ export function DepartamentoCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 shrink-0 text-slate-500"
+                className="h-8 w-8 shrink-0 text-muted-foreground"
               >
                 <MoreVertical className="h-4 w-4" />
                 <span className="sr-only">Opções do departamento</span>
@@ -72,13 +72,13 @@ export function DepartamentoCard({
           </DropdownMenu>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="line-clamp-2 min-h-[2.5rem] text-sm text-slate-500">
+          <p className="line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
             {departamento.descricao || "Sem descrição cadastrada."}
           </p>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg bg-emerald-50/80 p-3">
-              <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700">
+            <div className="rounded-lg bg-emerald-50/80 p-3 dark:bg-emerald-950/40">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
                 <ArrowUpRight className="h-3.5 w-3.5" />
                 Total Arrecadado
               </div>
@@ -88,8 +88,8 @@ export function DepartamentoCard({
                 {formatCurrency(departamento.totalArrecadado)}
               </p>
             </div>
-            <div className="rounded-lg bg-red-50/80 p-3">
-              <div className="flex items-center gap-1.5 text-xs font-medium text-red-600">
+            <div className="rounded-lg bg-red-50/80 p-3 dark:bg-red-950/40">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-red-600 dark:text-red-300">
                 <ArrowDownRight className="h-3.5 w-3.5" />
                 Total Saídas
               </div>

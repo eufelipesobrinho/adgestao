@@ -12,7 +12,10 @@ import { TransacaoDestinoBadge } from "@/components/financeiro/TransacaoDestinoB
 import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { getCurrencyColorClass } from "@/lib/finance-ui"
 import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
-import { SensitiveValue } from "@/components/privacy/SensitiveValue"
+import {
+  SensitiveText,
+  SensitiveValue,
+} from "@/components/privacy/SensitiveValue"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -64,10 +67,10 @@ export function FinanceiroPage() {
       <FadeIn>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+            <h1 className="text-2xl font-bold text-foreground md:text-3xl">
               Financeiro
             </h1>
-            <p className="mt-1 text-slate-500">
+            <p className="mt-1 text-muted-foreground">
               Controle entradas, saídas e o fluxo de caixa da igreja
             </p>
           </div>
@@ -79,7 +82,7 @@ export function FinanceiroPage() {
             </Button>
             <Button
               variant="outline"
-              className="border-red-200 text-red-700 hover:bg-red-50"
+              className="border-red-200 text-red-700 hover:bg-red-50 dark:border-red-900 dark:text-red-300 dark:hover:bg-red-950/40"
               onClick={() => setSaidaOpen(true)}
             >
               <ArrowDownRight className="h-4 w-4" />
@@ -95,15 +98,15 @@ export function FinanceiroPage() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <FadeIn delay={0.1}>
-          <Card className="border-slate-200/80 shadow-sm">
+          <Card className="border-border shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Entradas do Período
               </CardTitle>
             </CardHeader>
             <CardContent>
               {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
               ) : (
                 <p className={`text-2xl font-bold ${getCurrencyColorClass("entrada")}`}>
                   <SensitiveValue>{formatCurrency(totalEntradas)}</SensitiveValue>
@@ -113,15 +116,15 @@ export function FinanceiroPage() {
           </Card>
         </FadeIn>
         <FadeIn delay={0.15}>
-          <Card className="border-slate-200/80 shadow-sm">
+          <Card className="border-border shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Saídas do Período
               </CardTitle>
             </CardHeader>
             <CardContent>
               {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
               ) : (
                 <p className={`text-2xl font-bold ${getCurrencyColorClass("saida")}`}>
                   <SensitiveValue>{formatCurrency(totalSaidas)}</SensitiveValue>
@@ -133,17 +136,17 @@ export function FinanceiroPage() {
       </div>
 
       <FadeIn delay={0.2}>
-        <Card className="border-slate-200/80 shadow-sm">
+        <Card className="border-border shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Movimentações do Mês</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
               <div className="flex items-center justify-center py-16">
-                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
               </div>
             ) : transacoes.length === 0 ? (
-              <div className="py-16 text-center text-slate-500">
+              <div className="py-16 text-center text-muted-foreground">
                 Nenhuma movimentação neste período.
               </div>
             ) : (
@@ -164,7 +167,9 @@ export function FinanceiroPage() {
                       {transacoes.map((transacao, index) => (
                         <AnimatedTableRow key={transacao.id} index={index}>
                           <TableCell className="font-medium">
-                            {transacao.descricao ?? "—"}
+                            <SensitiveText>
+                              {transacao.descricao ?? "—"}
+                            </SensitiveText>
                           </TableCell>
                           <TableCell>
                             <Badge
@@ -190,7 +195,7 @@ export function FinanceiroPage() {
                               {formatCurrency(Number(transacao.valor))}
                             </SensitiveValue>
                           </TableCell>
-                          <TableCell className="text-right text-slate-500">
+                          <TableCell className="text-right text-muted-foreground">
                             {formatDateBR(transacao.data_transacao)}
                           </TableCell>
                         </AnimatedTableRow>
@@ -204,7 +209,9 @@ export function FinanceiroPage() {
                     <MobileCard key={transacao.id}>
                       <div className="flex items-start justify-between gap-3">
                         <p className="min-w-0 flex-1 text-base font-semibold leading-snug text-foreground">
-                          {transacao.descricao ?? "—"}
+                          <SensitiveText>
+                            {transacao.descricao ?? "—"}
+                          </SensitiveText>
                         </p>
                         <p
                           className={`shrink-0 text-lg font-bold ${getCurrencyColorClass(

@@ -2,20 +2,15 @@ import type { ReactNode } from "react"
 import { usePrivacy } from "@/contexts/PrivacyContext"
 import { cn } from "@/lib/utils"
 
-interface SensitiveValueProps {
+interface SensitiveProps {
   children: ReactNode
   className?: string
-  /** Prefixo opcional (ex: "+" / "-") exibido junto ao valor */
+  /** Prefixo opcional (ex: "+" / "-") */
   prefix?: string
 }
 
-const MASK = "R$ ••••••"
-
-export function SensitiveValue({
-  children,
-  className,
-  prefix,
-}: SensitiveValueProps) {
+/** Oculta valores e textos sensíveis com blur (mantém layout; impressão mostra original). */
+export function SensitiveValue({ children, className, prefix }: SensitiveProps) {
   const { valuesHidden } = usePrivacy()
 
   if (!valuesHidden) {
@@ -31,12 +26,13 @@ export function SensitiveValue({
     <>
       <span
         className={cn(
-          "select-none tracking-wider blur-[5px] print:hidden",
+          "inline select-none blur-[6px] print:hidden",
           className
         )}
-        aria-label="Valor oculto"
+        aria-label="Conteúdo oculto"
       >
-        {MASK}
+        {prefix}
+        {children}
       </span>
       <span className={cn("hidden print:inline", className)}>
         {prefix}
@@ -44,4 +40,9 @@ export function SensitiveValue({
       </span>
     </>
   )
+}
+
+/** Alias semântico para descrições / rótulos financeiros. */
+export function SensitiveText(props: SensitiveProps) {
+  return <SensitiveValue {...props} />
 }

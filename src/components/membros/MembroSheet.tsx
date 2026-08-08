@@ -113,9 +113,9 @@ export function MembroSheet({
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col overflow-hidden p-0">
-        <div className="border-b border-slate-100 bg-slate-50/80 px-6 py-6">
+        <div className="border-b border-border bg-muted/50 px-6 py-6">
           <SheetHeader className="space-y-1 text-left">
-            <SheetTitle className="text-xl text-slate-900">
+            <SheetTitle className="text-xl text-foreground">
               {isEditing ? "Editar Membro" : "Adicionar Membro"}
             </SheetTitle>
             <SheetDescription>
@@ -144,7 +144,7 @@ export function MembroSheet({
                   }
                   placeholder="Nome completo"
                   disabled={isSubmitting}
-                  className="border-slate-200 bg-white"
+                  className="border-border bg-card"
                   required
                 />
               </FormField>
@@ -160,7 +160,7 @@ export function MembroSheet({
                     }
                     placeholder="email@exemplo.com"
                     disabled={isSubmitting}
-                    className="border-slate-200 bg-white"
+                    className="border-border bg-card"
                   />
                 </FormField>
 
@@ -176,7 +176,7 @@ export function MembroSheet({
                     }
                     placeholder="(86) 99999-9999"
                     disabled={isSubmitting}
-                    className="border-slate-200 bg-white"
+                    className="border-border bg-card"
                   />
                 </FormField>
               </div>
@@ -205,7 +205,7 @@ export function MembroSheet({
                   }
                   placeholder="Rua, número, bairro"
                   disabled={isSubmitting}
-                  className="border-slate-200 bg-white"
+                  className="border-border bg-card"
                 />
               </FormField>
 
@@ -217,7 +217,7 @@ export function MembroSheet({
                   }
                   disabled={isSubmitting}
                 >
-                  <SelectTrigger id="status_dizimo" className="border-slate-200 bg-white">
+                  <SelectTrigger id="status_dizimo" className="border-border bg-card">
                     <SelectValue placeholder="Selecione o status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -232,7 +232,7 @@ export function MembroSheet({
             </FormSection>
           </div>
 
-          <div className="flex gap-2 border-t border-slate-100 bg-white px-6 py-4">
+          <div className="flex gap-2 border-t border-border bg-card px-6 py-4">
             <Button
               type="button"
               variant="outline"

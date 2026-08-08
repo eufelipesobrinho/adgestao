@@ -95,10 +95,10 @@ export function MembrosPage() {
       <FadeIn>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+            <h1 className="text-2xl font-bold text-foreground md:text-3xl">
               Membros
             </h1>
-            <p className="mt-1 text-slate-500">
+            <p className="mt-1 text-muted-foreground">
               Gerencie o cadastro dos membros da igreja
             </p>
           </div>
@@ -118,7 +118,7 @@ export function MembrosPage() {
             transition={{ duration: 0.2 }}
             className="flex flex-wrap items-center gap-2 rounded-xl border border-brand/30 bg-brand/10 px-4 py-3 shadow-sm"
           >
-            <span className="text-sm text-slate-700">
+            <span className="text-sm text-foreground">
               Selecionado: <strong>{selectedMembro.nome}</strong>
             </span>
             <div className="ml-auto flex gap-2">
@@ -129,7 +129,7 @@ export function MembrosPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-red-200 text-red-700 hover:bg-red-50"
+                className="border-red-200 text-red-700 hover:bg-red-50 dark:border-red-900 dark:text-red-300 dark:hover:bg-red-950/40"
                 onClick={() => setDeleteOpen(true)}
               >
                 <Trash2 className="h-4 w-4" />
@@ -141,17 +141,17 @@ export function MembrosPage() {
       </AnimatePresence>
 
       <FadeIn delay={0.05}>
-        <Card className="border-slate-200/80 shadow-sm">
+        <Card className="border-border shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Lista de Membros</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
               <div className="flex items-center justify-center py-16">
-                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
               </div>
             ) : membros.length === 0 ? (
-              <div className="py-16 text-center text-slate-500">
+              <div className="py-16 text-center text-muted-foreground">
                 Nenhum membro cadastrado ainda.
               </div>
             ) : (
@@ -199,7 +199,7 @@ export function MembrosPage() {
                           <TableCell>
                             <StatusBadge status={membro.status_dizimo} />
                           </TableCell>
-                          <TableCell className="text-right text-slate-500">
+                          <TableCell className="text-right text-muted-foreground">
                             {formatDateBR(membro.data_cadastro)}
                           </TableCell>
                         </AnimatedTableRow>

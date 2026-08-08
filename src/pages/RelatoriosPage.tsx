@@ -5,7 +5,10 @@ import { Logo } from "@/components/brand/Logo"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
-import { SensitiveValue } from "@/components/privacy/SensitiveValue"
+import {
+  SensitiveText,
+  SensitiveValue,
+} from "@/components/privacy/SensitiveValue"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FadeIn } from "@/components/ui/motion"
@@ -82,10 +85,10 @@ export function RelatoriosPage() {
       <FadeIn>
         <div className="print:hidden flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+            <h1 className="text-2xl font-bold text-foreground md:text-3xl">
               Relatório Financeiro Mensal
             </h1>
-            <p className="mt-1 text-slate-500">
+            <p className="mt-1 text-muted-foreground">
               Dossiê executivo para prestação de contas ao Pastor
             </p>
           </div>
@@ -112,18 +115,18 @@ export function RelatoriosPage() {
         </div>
       </FadeIn>
 
-      <div className="relatorio-document mx-auto max-w-5xl space-y-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-10 print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none">
-        <header className="border-b border-slate-200 pb-6 print:break-inside-avoid">
+      <div className="relatorio-document mx-auto max-w-5xl space-y-8 rounded-xl border border-border bg-card p-6 shadow-sm md:p-10 print:max-w-none print:rounded-none print:border-0 print:bg-white print:p-0 print:shadow-none print:text-slate-900">
+        <header className="border-b border-border pb-6 print:break-inside-avoid">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <Logo size="lg" surface="print" className="print:h-20" />
             <div className="text-left sm:text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Prestação de Contas
               </p>
-              <h2 className="mt-1 text-xl font-bold capitalize text-slate-900 md:text-2xl">
+              <h2 className="mt-1 text-xl font-bold capitalize text-foreground md:text-2xl">
                 {periodoLabel}
               </h2>
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Gerado em {formatGeneratedAt()}
               </p>
             </div>
@@ -132,18 +135,18 @@ export function RelatoriosPage() {
 
         {isLoading ? (
           <div className="flex items-center justify-center py-24 print:hidden">
-            <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
           <>
             <section className="print:break-inside-avoid">
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                 Destaques — Caixa Geral
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="border-slate-200 shadow-none print:border print:shadow-none">
+                <Card className="border-border shadow-none print:border print:shadow-none">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-slate-600">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
                       Total de Entradas
                     </CardTitle>
                   </CardHeader>
@@ -157,9 +160,9 @@ export function RelatoriosPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card className="border-slate-200 shadow-none print:border print:shadow-none">
+                <Card className="border-border shadow-none print:border print:shadow-none">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-slate-600">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
                       Total de Saídas
                     </CardTitle>
                   </CardHeader>
@@ -173,9 +176,9 @@ export function RelatoriosPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card className="border-slate-200 shadow-none print:border print:shadow-none">
+                <Card className="border-border shadow-none print:border print:shadow-none">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-slate-600">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
                       Saldo Final do Mês
                     </CardTitle>
                   </CardHeader>
@@ -196,22 +199,22 @@ export function RelatoriosPage() {
             </section>
 
             {!relatorio.hasMovimentacoes ? (
-              <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50/50 py-16 text-center print:break-inside-avoid print:border-solid print:bg-white">
-                <p className="text-base font-medium text-slate-700">
+              <div className="rounded-lg border border-dashed border-border bg-muted/50 py-16 text-center print:break-inside-avoid print:border-solid print:bg-white">
+                <p className="text-base font-medium text-foreground">
                   Nenhuma movimentação registrada neste período.
                 </p>
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-muted-foreground">
                   Selecione outro mês ou registre transações no módulo Financeiro.
                 </p>
               </div>
             ) : (
               <>
                 <section className="print:break-inside-avoid">
-                  <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-600">
+                  <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                     Resumo de Departamentos
                   </h3>
                   {relatorio.departamentos.length === 0 ? (
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-muted-foreground">
                       Nenhum departamento cadastrado.
                     </p>
                   ) : (
@@ -281,7 +284,7 @@ export function RelatoriosPage() {
                 </section>
 
                 <section>
-                  <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-600">
+                  <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                     Detalhamento de Transações
                   </h3>
                   <>
@@ -299,12 +302,14 @@ export function RelatoriosPage() {
                         <TableBody>
                           {relatorio.transacoesCronologicas.map((transacao) => (
                             <TableRow key={transacao.id}>
-                              <TableCell className="whitespace-nowrap text-slate-600">
+                              <TableCell className="whitespace-nowrap text-muted-foreground">
                                 {formatDateBR(transacao.data_transacao)}
                               </TableCell>
                               <TableCell>{transacao.tipo}</TableCell>
                               <TableCell className="max-w-[200px] truncate sm:max-w-none">
-                                {transacao.descricao ?? "—"}
+                                <SensitiveText>
+                                  {transacao.descricao ?? "—"}
+                                </SensitiveText>
                               </TableCell>
                               <TableCell>{getDepartamentoLabel(transacao)}</TableCell>
                               <TableCell
@@ -329,7 +334,9 @@ export function RelatoriosPage() {
                         <MobileCard key={transacao.id}>
                           <div className="flex items-start justify-between gap-3">
                             <p className="min-w-0 flex-1 text-base font-semibold leading-snug text-foreground">
-                              {transacao.descricao ?? "—"}
+                              <SensitiveText>
+                                {transacao.descricao ?? "—"}
+                              </SensitiveText>
                             </p>
                             <p
                               className={`shrink-0 text-lg font-bold ${getCurrencyColorClass(
@@ -360,7 +367,7 @@ export function RelatoriosPage() {
               </>
             )}
 
-            <footer className="border-t border-slate-200 pt-4 text-center text-xs text-slate-500 print:break-inside-avoid">
+            <footer className="border-t border-border pt-4 text-center text-xs text-muted-foreground print:break-inside-avoid">
               Documento gerado automaticamente pelo Contabs — uso exclusivo para
               prestação de contas interna.
             </footer>

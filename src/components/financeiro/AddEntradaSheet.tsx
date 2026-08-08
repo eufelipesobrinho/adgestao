@@ -135,7 +135,7 @@ export function AddEntradaSheet({
       <SheetContent side="right" className="flex w-full flex-col overflow-hidden p-0">
         <div className="border-b border-green-100 bg-gradient-to-r from-green-50/80 to-white px-6 py-6">
           <SheetHeader className="space-y-1 text-left">
-            <SheetTitle className="text-xl text-slate-900">Nova Entrada</SheetTitle>
+            <SheetTitle className="text-xl text-foreground">Nova Entrada</SheetTitle>
             <SheetDescription>
               Registre dízimos, ofertas ou outras entradas financeiras.
             </SheetDescription>
@@ -149,7 +149,7 @@ export function AddEntradaSheet({
           <div className="flex-1 space-y-5 overflow-y-auto px-6 py-5">
             {isLoadingOptions ? (
               <div className="flex justify-center py-12">
-                <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               </div>
             ) : (
               <FormSection title="Dados da Entrada">
@@ -159,7 +159,7 @@ export function AddEntradaSheet({
                     onValueChange={handleSubtipoChange}
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger id="subtipo" className="border-slate-200 bg-white">
+                    <SelectTrigger id="subtipo" className="border-border bg-card">
                       <SelectValue placeholder="Selecione o tipo" />
                     </SelectTrigger>
                     <SelectContent>
@@ -183,7 +183,7 @@ export function AddEntradaSheet({
                       }
                       placeholder="0,00"
                       disabled={isSubmitting}
-                      className="border-slate-200 bg-white"
+                      className="border-border bg-card"
                       required
                     />
                   </FormField>
@@ -206,7 +206,7 @@ export function AddEntradaSheet({
                             }
                             disabled={isSubmitting}
                           >
-                            <SelectTrigger id="membro_id" className="border-slate-200 bg-white">
+                            <SelectTrigger id="membro_id" className="border-border bg-card">
                               <SelectValue placeholder="Selecione o membro" />
                             </SelectTrigger>
                             <SelectContent>
@@ -234,7 +234,7 @@ export function AddEntradaSheet({
                     }
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger id="departamento_id" className="border-slate-200 bg-white">
+                    <SelectTrigger id="departamento_id" className="border-border bg-card">
                       <SelectValue placeholder="Selecione o departamento" />
                     </SelectTrigger>
                     <SelectContent>
@@ -270,7 +270,7 @@ export function AddEntradaSheet({
                     }
                     placeholder="Ex: Dízimo de João Silva"
                     disabled={isSubmitting}
-                    className="border-slate-200 bg-white"
+                    className="border-border bg-card"
                     required
                   />
                 </FormField>
@@ -278,7 +278,7 @@ export function AddEntradaSheet({
             )}
           </div>
 
-          <div className="flex gap-2 border-t border-slate-100 bg-white px-6 py-4">
+          <div className="flex gap-2 border-t border-border bg-card px-6 py-4">
             <Button
               type="button"
               variant="outline"

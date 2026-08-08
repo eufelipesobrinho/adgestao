@@ -8,14 +8,14 @@ export function TransacaoDestinoBadge({
 }) {
   if (!transacao.departamento_id) {
     return (
-      <Badge variant="secondary" className="font-normal text-slate-600">
+      <Badge variant="secondary" className="font-normal text-muted-foreground">
         Caixa Geral
       </Badge>
     )
   }
 
   return (
-    <Badge variant="muted" className="font-normal text-slate-700">
+    <Badge variant="muted" className="font-normal text-foreground">
       {transacao.departamentos?.nome ?? "Departamento"}
     </Badge>
   )

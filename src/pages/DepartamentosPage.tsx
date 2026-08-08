@@ -81,10 +81,10 @@ export function DepartamentosPage() {
       <FadeIn>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
+            <h1 className="text-2xl font-bold text-foreground md:text-3xl">
               Departamentos
             </h1>
-            <p className="mt-1 text-slate-500">
+            <p className="mt-1 text-muted-foreground">
               Organize ministérios e acompanhe o desempenho financeiro
             </p>
           </div>
@@ -103,14 +103,14 @@ export function DepartamentosPage() {
         </div>
       ) : departamentos.length === 0 ? (
         <FadeIn delay={0.05}>
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/50 py-20 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
-              <Building2 className="h-7 w-7 text-slate-400" />
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/50 py-20 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
+              <Building2 className="h-7 w-7 text-muted-foreground" />
             </div>
-            <h3 className="mt-4 text-lg font-semibold text-slate-900">
+            <h3 className="mt-4 text-lg font-semibold text-foreground">
               Nenhum departamento cadastrado
             </h3>
-            <p className="mt-1 max-w-sm text-sm text-slate-500">
+            <p className="mt-1 max-w-sm text-sm text-muted-foreground">
               Crie departamentos como Jovens, Missões ou Louvor para organizar
               suas finanças.
             </p>

@@ -20,12 +20,12 @@ export function MonthNavigator({ month, year, onChange }: MonthNavigatorProps) {
   }
 
   return (
-    <div className="flex items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+    <div className="flex items-center justify-center gap-3 rounded-xl border border-border bg-card px-4 py-3">
       <Button variant="ghost" size="icon" onClick={goToPrevious}>
         <ChevronLeft className="h-5 w-5" />
         <span className="sr-only">Mês anterior</span>
       </Button>
-      <span className="min-w-[180px] text-center text-sm font-semibold capitalize text-slate-900 sm:text-base">
+      <span className="min-w-[180px] text-center text-sm font-semibold capitalize text-foreground sm:text-base">
         {getMonthLabel(month, year)}
       </span>
       <Button variant="ghost" size="icon" onClick={goToNext}>

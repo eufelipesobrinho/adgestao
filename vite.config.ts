@@ -4,21 +4,19 @@ import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 /** Incrementar este valor força refresh de manifesto/ícones em PWAs instaladas */
-const PWA_ASSET_VERSION = "v20260807"
+const PWA_ASSET_VERSION = "v20260808"
 
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      // Nome versionado do manifesto → URL nova → browsers rebaixam ícones do zero
       manifestFilename: `manifest-${PWA_ASSET_VERSION}.webmanifest`,
       includeAssets: [
-        `icons/favicon-${PWA_ASSET_VERSION}.png`,
-        `icons/apple-touch-icon-${PWA_ASSET_VERSION}.png`,
-        `icons/icon-192-${PWA_ASSET_VERSION}.png`,
-        `icons/icon-512-${PWA_ASSET_VERSION}.png`,
-        `icons/pwa-icon-${PWA_ASSET_VERSION}.svg`,
+        `icons/favicon-${PWA_ASSET_VERSION}.jpg`,
+        `icons/apple-touch-icon-${PWA_ASSET_VERSION}.jpg`,
+        `icons/icon-192-${PWA_ASSET_VERSION}.jpg`,
+        `icons/icon-512-${PWA_ASSET_VERSION}.jpg`,
         "assets/logo-contabs-light-mode.jpg",
         "assets/logo-contabs-dark-mode.jpg",
         "assets/logo-contabs-transparent-light.png",
@@ -31,34 +29,34 @@ export default defineConfig({
         description:
           "Sistema de gestão financeira e de secretaria para instituições religiosas",
         theme_color: "#001F3F",
-        background_color: "#001F3F",
+        background_color: "#ffffff",
         display: "standalone",
         start_url: "/dashboard",
         scope: "/",
         lang: "pt-BR",
         icons: [
           {
-            src: `/icons/icon-192-${PWA_ASSET_VERSION}.png`,
+            src: `/icons/icon-192-${PWA_ASSET_VERSION}.jpg`,
             sizes: "192x192",
-            type: "image/png",
+            type: "image/jpeg",
             purpose: "any",
           },
           {
-            src: `/icons/icon-512-${PWA_ASSET_VERSION}.png`,
+            src: `/icons/icon-512-${PWA_ASSET_VERSION}.jpg`,
             sizes: "512x512",
-            type: "image/png",
+            type: "image/jpeg",
             purpose: "any",
           },
           {
-            src: `/icons/icon-512-${PWA_ASSET_VERSION}.png`,
+            src: `/icons/icon-512-${PWA_ASSET_VERSION}.jpg`,
             sizes: "512x512",
-            type: "image/png",
+            type: "image/jpeg",
             purpose: "maskable",
           },
           {
-            src: `/icons/pwa-icon-${PWA_ASSET_VERSION}.svg`,
-            sizes: "any",
-            type: "image/svg+xml",
+            src: `/assets/logo-contabs-light-mode.jpg`,
+            sizes: "512x512",
+            type: "image/jpeg",
             purpose: "any",
           },
         ],

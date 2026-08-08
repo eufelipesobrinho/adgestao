@@ -112,7 +112,7 @@ export function AddSaidaSheet({
       <SheetContent side="right" className="flex w-full flex-col overflow-hidden p-0">
         <div className="border-b border-red-100 bg-gradient-to-r from-red-50/60 to-white px-6 py-6">
           <SheetHeader className="space-y-1 text-left">
-            <SheetTitle className="text-xl text-slate-900">Nova Saída</SheetTitle>
+            <SheetTitle className="text-xl text-foreground">Nova Saída</SheetTitle>
             <SheetDescription>
               Registre despesas e saídas operacionais da igreja.
             </SheetDescription>
@@ -126,7 +126,7 @@ export function AddSaidaSheet({
           <div className="flex-1 space-y-5 overflow-y-auto px-6 py-5">
             {isLoadingOptions ? (
               <div className="flex justify-center py-12">
-                <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               </div>
             ) : (
               <FormSection title="Dados da Saída">
@@ -141,7 +141,7 @@ export function AddSaidaSheet({
                       }
                       placeholder="0,00"
                       disabled={isSubmitting}
-                      className="border-slate-200 bg-white"
+                      className="border-border bg-card"
                       required
                     />
                   </FormField>
@@ -157,7 +157,7 @@ export function AddSaidaSheet({
                       }
                       disabled={isSubmitting}
                     >
-                      <SelectTrigger id="departamento_id" className="border-slate-200 bg-white">
+                      <SelectTrigger id="departamento_id" className="border-border bg-card">
                         <SelectValue placeholder="Selecione" />
                       </SelectTrigger>
                       <SelectContent>
@@ -194,7 +194,7 @@ export function AddSaidaSheet({
                     }
                     placeholder="Ex: Conta de Luz"
                     disabled={isSubmitting}
-                    className="border-slate-200 bg-white"
+                    className="border-border bg-card"
                     required
                   />
                 </FormField>
@@ -202,7 +202,7 @@ export function AddSaidaSheet({
             )}
           </div>
 
-          <div className="flex gap-2 border-t border-slate-100 bg-white px-6 py-4">
+          <div className="flex gap-2 border-t border-border bg-card px-6 py-4">
             <Button
               type="button"
               variant="outline"

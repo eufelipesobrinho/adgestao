@@ -33,13 +33,13 @@ function ProfileField({
   value: string
 }) {
   return (
-    <div className="flex items-start gap-3 rounded-xl bg-slate-50/80 p-4">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
-        <Icon className="h-4 w-4 text-slate-500" />
+    <div className="flex items-start gap-3 rounded-xl bg-muted/50 p-4">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card shadow-sm">
+        <Icon className="h-4 w-4 text-muted-foreground" />
       </div>
       <div className="min-w-0">
-        <p className="text-xs font-medium text-slate-500">{label}</p>
-        <p className="mt-0.5 text-sm font-medium text-slate-900">{value}</p>
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
+        <p className="mt-0.5 text-sm font-medium text-foreground">{value}</p>
       </div>
     </div>
   )
@@ -65,7 +65,7 @@ export function MembroProfileSheet({
               </div>
               <div>
                 <SheetTitle className="text-xl text-white">{membro.nome}</SheetTitle>
-                <SheetDescription className="text-slate-300">
+                <SheetDescription className="text-white/70">
                   Perfil do Membro
                 </SheetDescription>
               </div>
