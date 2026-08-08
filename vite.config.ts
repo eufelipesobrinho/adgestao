@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 /** Incrementar este valor força refresh de manifesto/ícones em PWAs instaladas */
-const PWA_ASSET_VERSION = "v20260813"
+const PWA_ASSET_VERSION = "v20260814"
 
 export default defineConfig({
   plugins: [
@@ -34,13 +34,7 @@ export default defineConfig({
         icons: [
           {
             src: "/assets/logo-contabs-final.jpg",
-            sizes: "192x192",
-            type: "image/jpeg",
-            purpose: "any maskable",
-          },
-          {
-            src: "/assets/logo-contabs-final.jpg",
-            sizes: "512x512",
+            sizes: "1000x1000",
             type: "image/jpeg",
             purpose: "any maskable",
           },
