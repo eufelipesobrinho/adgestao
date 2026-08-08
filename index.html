@@ -16,8 +16,11 @@
         } catch (e) {}
       })()
     </script>
-    <link rel="icon" type="image/jpeg" href="/assets/logo-contabs-light-mode.jpg" />
-    <link rel="apple-touch-icon" href="/pwa-icon.svg" />
+    <!-- Cache-bust v20260807: força refresh de favicon/ícones em browsers e PWAs -->
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-v20260807.png?v=20260807" />
+    <link rel="icon" type="image/svg+xml" href="/icons/pwa-icon-v20260807.svg?v=20260807" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-v20260807.png?v=20260807" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon-v20260807.png?v=20260807" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#001F3F" />
     <meta name="application-name" content="Contabs" />

@@ -3,50 +3,72 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
+/** Incrementar este valor força refresh de manifesto/ícones em PWAs instaladas */
+const PWA_ASSET_VERSION = "v20260807"
+
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      // Nome versionado do manifesto → URL nova → browsers rebaixam ícones do zero
+      manifestFilename: `manifest-${PWA_ASSET_VERSION}.webmanifest`,
       includeAssets: [
-        "pwa-icon.svg",
+        `icons/favicon-${PWA_ASSET_VERSION}.png`,
+        `icons/apple-touch-icon-${PWA_ASSET_VERSION}.png`,
+        `icons/icon-192-${PWA_ASSET_VERSION}.png`,
+        `icons/icon-512-${PWA_ASSET_VERSION}.png`,
+        `icons/pwa-icon-${PWA_ASSET_VERSION}.svg`,
         "assets/logo-contabs-light-mode.jpg",
         "assets/logo-contabs-dark-mode.jpg",
         "assets/logo-contabs-transparent-light.png",
         "assets/logo-contabs-transparent-dark.png",
       ],
       manifest: {
+        id: `/?homescreen=contabs-${PWA_ASSET_VERSION}`,
         name: "Contabs - Instituições Religiosas",
         short_name: "Contabs",
         description:
           "Sistema de gestão financeira e de secretaria para instituições religiosas",
         theme_color: "#001F3F",
-        background_color: "#ffffff",
+        background_color: "#001F3F",
         display: "standalone",
         start_url: "/dashboard",
+        scope: "/",
+        lang: "pt-BR",
         icons: [
           {
-            src: "/pwa-icon.svg",
-            sizes: "512x512",
-            type: "image/svg+xml",
+            src: `/icons/icon-192-${PWA_ASSET_VERSION}.png`,
+            sizes: "192x192",
+            type: "image/png",
             purpose: "any",
           },
           {
-            src: "/pwa-icon.svg",
+            src: `/icons/icon-512-${PWA_ASSET_VERSION}.png`,
             sizes: "512x512",
-            type: "image/svg+xml",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: `/icons/icon-512-${PWA_ASSET_VERSION}.png`,
+            sizes: "512x512",
+            type: "image/png",
             purpose: "maskable",
           },
           {
-            src: "/assets/logo-contabs-light-mode.jpg",
-            sizes: "512x512",
-            type: "image/jpeg",
+            src: `/icons/pwa-icon-${PWA_ASSET_VERSION}.svg`,
+            sizes: "any",
+            type: "image/svg+xml",
             purpose: "any",
           },
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff2}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff2,webmanifest}"],
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+        navigateFallback: "/index.html",
       },
       devOptions: {
         enabled: true,

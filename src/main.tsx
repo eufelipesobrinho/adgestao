@@ -9,7 +9,16 @@ import { ThemeProvider } from "@/contexts/ThemeContext"
 import { router } from "@/routes"
 import "@/index.css"
 
-registerSW({ immediate: true })
+registerSW({
+  immediate: true,
+  onRegisteredSW(_swUrl, registration) {
+    // Força checagem de nova versão do service worker (ícones/manifesto)
+    registration?.update()
+    window.setInterval(() => {
+      registration?.update()
+    }, 60 * 60 * 1000)
+  },
+})
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
