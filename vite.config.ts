@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 /** Incrementar este valor força refresh de manifesto/ícones em PWAs instaladas */
-const PWA_ASSET_VERSION = "v20260811"
+const PWA_ASSET_VERSION = "v20260812"
 
 export default defineConfig({
   plugins: [
@@ -13,11 +13,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       manifestFilename: `manifest-${PWA_ASSET_VERSION}.webmanifest`,
       includeAssets: [
+        "assets/logo-contabs-final.jpg",
+        "assets/logo-contabs-final-192.jpg",
         `icons/favicon-${PWA_ASSET_VERSION}.png`,
         `icons/apple-touch-icon-${PWA_ASSET_VERSION}.png`,
-        `icons/icon-192-${PWA_ASSET_VERSION}.png`,
-        `icons/icon-512-${PWA_ASSET_VERSION}.png`,
-        `icons/icon-512-maskable-${PWA_ASSET_VERSION}.png`,
         "assets/logo-contabs-light-mode.jpg",
         "assets/logo-contabs-dark-mode.jpg",
         "assets/logo-contabs-transparent-light.png",
@@ -25,7 +24,7 @@ export default defineConfig({
       ],
       manifest: {
         id: `/?homescreen=contabs-${PWA_ASSET_VERSION}`,
-        name: "Contabs",
+        name: "Contabs - Instituições Religiosas",
         short_name: "Contabs",
         description:
           "Sistema de gestão financeira e de secretaria para instituições religiosas",
@@ -37,22 +36,16 @@ export default defineConfig({
         lang: "pt-BR",
         icons: [
           {
-            src: `/icons/icon-192-${PWA_ASSET_VERSION}.png`,
+            src: "/assets/logo-contabs-final-192.jpg",
             sizes: "192x192",
-            type: "image/png",
-            purpose: "any",
+            type: "image/jpeg",
+            purpose: "any maskable",
           },
           {
-            src: `/icons/icon-512-${PWA_ASSET_VERSION}.png`,
+            src: "/assets/logo-contabs-final.jpg",
             sizes: "512x512",
-            type: "image/png",
-            purpose: "any",
-          },
-          {
-            src: `/icons/icon-512-maskable-${PWA_ASSET_VERSION}.png`,
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "maskable",
+            type: "image/jpeg",
+            purpose: "any maskable",
           },
         ],
       },
