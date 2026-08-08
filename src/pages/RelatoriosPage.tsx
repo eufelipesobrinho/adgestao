@@ -4,7 +4,6 @@ import { toast } from "sonner"
 import { Logo } from "@/components/brand/Logo"
 import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
-import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
 import {
   SensitiveText,
   SensitiveValue,
@@ -92,13 +91,10 @@ export function RelatoriosPage() {
               Dossiê executivo para prestação de contas ao Pastor
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <PrivacyToggle />
-            <Button onClick={handlePrint} className="shrink-0">
-              <Printer className="h-4 w-4" />
-              Imprimir Relatório
-            </Button>
-          </div>
+          <Button onClick={handlePrint} className="shrink-0">
+            <Printer className="h-4 w-4" />
+            Imprimir Relatório
+          </Button>
         </div>
       </FadeIn>
 
@@ -118,7 +114,12 @@ export function RelatoriosPage() {
       <div className="relatorio-document mx-auto max-w-5xl space-y-8 rounded-xl border border-border bg-card p-6 shadow-sm md:p-10 print:max-w-none print:rounded-none print:border-0 print:bg-white print:p-0 print:shadow-none print:text-slate-900">
         <header className="border-b border-border pb-6 print:break-inside-avoid">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <Logo size="lg" surface="print" className="print:h-20" />
+            <Logo size="lg" className="print:hidden" />
+            <Logo
+              size="lg"
+              surface="print"
+              className="hidden print:block print:h-20"
+            />
             <div className="text-left sm:text-right">
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Prestação de Contas

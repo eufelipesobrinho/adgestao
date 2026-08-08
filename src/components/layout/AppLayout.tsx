@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { Logo } from "@/components/brand/Logo"
 import { SidebarNav } from "@/components/layout/SidebarNav"
 import { PwaPrompt } from "@/components/pwa/PwaPrompt"
+import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
 import { ThemeToggle } from "@/components/theme/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import {
@@ -103,6 +104,7 @@ export function AppLayout() {
           <div className="hidden flex-1 lg:block" />
 
           <div className="flex items-center gap-1">
+            <PrivacyToggle />
             <ThemeToggle />
             <Button
               variant="ghost"

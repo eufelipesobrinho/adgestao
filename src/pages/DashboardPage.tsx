@@ -34,7 +34,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
 import {
   SensitiveText,
   SensitiveValue,
@@ -140,31 +139,28 @@ export function DashboardPage() {
             <p className="mt-1 capitalize text-muted-foreground">{today}</p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <PrivacyToggle />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="gold">
-                  Novo Registro
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/membros")}>
-                  <UserPlus className="h-4 w-4" />
-                  Novo Membro
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/financeiro")}>
-                  <Plus className="h-4 w-4" />
-                  Nova Entrada
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/financeiro")}>
-                  <Minus className="h-4 w-4" />
-                  Nova Saída
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="gold">
+                Novo Registro
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => navigate("/membros")}>
+                <UserPlus className="h-4 w-4" />
+                Novo Membro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/financeiro")}>
+                <Plus className="h-4 w-4" />
+                Nova Entrada
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/financeiro")}>
+                <Minus className="h-4 w-4" />
+                Nova Saída
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </FadeIn>
 

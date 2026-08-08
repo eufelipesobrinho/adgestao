@@ -11,7 +11,6 @@ import { MonthNavigator } from "@/components/financeiro/MonthNavigator"
 import { TransacaoDestinoBadge } from "@/components/financeiro/TransacaoDestinoBadge"
 import { MobileCard, MobileDetailRow } from "@/components/mobile/mobile-list"
 import { getCurrencyColorClass } from "@/lib/finance-ui"
-import { PrivacyToggle } from "@/components/privacy/PrivacyToggle"
 import {
   SensitiveText,
   SensitiveValue,
@@ -75,7 +74,6 @@ export function FinanceiroPage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <PrivacyToggle />
             <Button variant="gold" onClick={() => setEntradaOpen(true)}>
               <ArrowUpRight className="h-4 w-4" />
               Nova Entrada

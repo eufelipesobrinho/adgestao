@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 interface FormFieldProps {
   label: string
   htmlFor?: string
+  /** Mantido por compatibilidade; o asterisco visual não é mais exibido. */
   required?: boolean
   children: ReactNode
   className?: string
@@ -13,7 +14,6 @@ interface FormFieldProps {
 export function FormField({
   label,
   htmlFor,
-  required,
   children,
   className,
 }: FormFieldProps) {
@@ -21,7 +21,6 @@ export function FormField({
     <div className={cn("space-y-2", className)}>
       <Label htmlFor={htmlFor} className="text-foreground">
         {label}
-        {required && <span className="ml-0.5 text-brand">*</span>}
       </Label>
       {children}
     </div>
