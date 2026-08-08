@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 /** Incrementar este valor força refresh de manifesto/ícones em PWAs instaladas */
-const PWA_ASSET_VERSION = "v20260809"
+const PWA_ASSET_VERSION = "v20260811"
 
 export default defineConfig({
   plugins: [
@@ -17,6 +17,7 @@ export default defineConfig({
         `icons/apple-touch-icon-${PWA_ASSET_VERSION}.png`,
         `icons/icon-192-${PWA_ASSET_VERSION}.png`,
         `icons/icon-512-${PWA_ASSET_VERSION}.png`,
+        `icons/icon-512-maskable-${PWA_ASSET_VERSION}.png`,
         "assets/logo-contabs-light-mode.jpg",
         "assets/logo-contabs-dark-mode.jpg",
         "assets/logo-contabs-transparent-light.png",
@@ -48,7 +49,7 @@ export default defineConfig({
             purpose: "any",
           },
           {
-            src: `/icons/icon-512-${PWA_ASSET_VERSION}.png`,
+            src: `/icons/icon-512-maskable-${PWA_ASSET_VERSION}.png`,
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",

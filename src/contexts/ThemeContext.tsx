@@ -7,17 +7,20 @@ import {
   useState,
   type ReactNode,
 } from "react"
+import {
+  readStoredTheme,
+  writeStoredTheme,
+  type StoredThemePreference,
+} from "@/lib/ui-preferences"
 
-export type ThemePreference = "light" | "dark" | "system"
+export type ThemePreference = StoredThemePreference
 
 interface ThemeContextValue {
   theme: ThemePreference
   setTheme: (theme: ThemePreference) => void
   resolvedTheme: "light" | "dark"
+  resetTheme: () => void
 }
-
-const STORAGE_KEY = "contabs-theme"
-const LEGACY_STORAGE_KEY = "ad-gestao-theme"
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
@@ -28,31 +31,27 @@ function getSystemTheme(): "light" | "dark" {
     : "light"
 }
 
-function getStoredTheme(): ThemePreference {
-  if (typeof window === "undefined") return "system"
-  const stored =
-    localStorage.getItem(STORAGE_KEY) ??
-    localStorage.getItem(LEGACY_STORAGE_KEY)
-  if (stored === "light" || stored === "dark" || stored === "system") {
-    return stored
-  }
-  return "system"
-}
-
 function applyResolvedTheme(resolved: "light" | "dark") {
   document.documentElement.classList.toggle("dark", resolved === "dark")
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemePreference>(getStoredTheme)
+  const [theme, setThemeState] = useState<ThemePreference>(readStoredTheme)
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">(() => {
-    const preference = getStoredTheme()
+    const preference = readStoredTheme()
     return preference === "system" ? getSystemTheme() : preference
   })
 
   const setTheme = useCallback((nextTheme: ThemePreference) => {
     setThemeState(nextTheme)
-    localStorage.setItem(STORAGE_KEY, nextTheme)
+    writeStoredTheme(nextTheme)
+  }, [])
+
+  const resetTheme = useCallback(() => {
+    setThemeState("system")
+    const resolved = getSystemTheme()
+    setResolvedTheme(resolved)
+    applyResolvedTheme(resolved)
   }, [])
 
   useEffect(() => {
@@ -76,8 +75,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme])
 
   const value = useMemo(
-    () => ({ theme, setTheme, resolvedTheme }),
-    [theme, setTheme, resolvedTheme]
+    () => ({ theme, setTheme, resolvedTheme, resetTheme }),
+    [theme, setTheme, resolvedTheme, resetTheme]
   )
 
   return (

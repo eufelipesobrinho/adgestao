@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 import { Toaster } from "sonner"
 import { registerSW } from "virtual:pwa-register"
+import { PreferencesSync } from "@/components/preferences/PreferencesSync"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { NavStyleProvider } from "@/contexts/NavStyleContext"
 import { PrivacyProvider } from "@/contexts/PrivacyContext"
@@ -27,6 +28,7 @@ createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <PrivacyProvider>
           <NavStyleProvider>
+            <PreferencesSync />
             <RouterProvider router={router} />
             <Toaster position="top-right" richColors closeButton />
           </NavStyleProvider>

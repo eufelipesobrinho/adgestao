@@ -1,5 +1,13 @@
 import { supabase } from "@/lib/supabase"
-import type { PerfilIgreja, PerfilIgrejaFormData } from "@/types/perfil-igreja"
+import type {
+  StoredNavStyle,
+  StoredThemePreference,
+} from "@/lib/ui-preferences"
+import type {
+  PerfilIgreja,
+  PerfilIgrejaFormData,
+  UiPreferences,
+} from "@/types/perfil-igreja"
 
 async function getIgrejaId(): Promise<string> {
   const {
@@ -48,6 +56,55 @@ export async function upsertPerfilIgreja(
 
   if (error) throw error
   return data as PerfilIgreja
+}
+
+export async function saveUiPreferences(prefs: UiPreferences): Promise<void> {
+  const igrejaId = await getIgrejaId()
+  const existing = await fetchPerfilIgreja()
+
+  if (existing) {
+    const { error } = await supabase
+      .from("perfil_igreja")
+      .update({
+        theme_preference: prefs.theme_preference,
+        tema: prefs.theme_preference,
+        nav_style: prefs.nav_style,
+      })
+      .eq("igreja_id", igrejaId)
+
+    if (error) throw error
+    return
+  }
+
+  const { error } = await supabase.from("perfil_igreja").insert({
+    igreja_id: igrejaId,
+    nome_igreja: "Minha Igreja",
+    qtd_congregacoes: 1,
+    theme_preference: prefs.theme_preference,
+    tema: prefs.theme_preference,
+    nav_style: prefs.nav_style,
+  })
+
+  if (error) throw error
+}
+
+export function resolveThemeFromPerfil(
+  perfil: PerfilIgreja | null
+): StoredThemePreference | null {
+  const value = perfil?.theme_preference || perfil?.tema
+  if (value === "light" || value === "dark" || value === "system") {
+    return value
+  }
+  return null
+}
+
+export function resolveNavStyleFromPerfil(
+  perfil: PerfilIgreja | null
+): StoredNavStyle | null {
+  if (perfil?.nav_style === "top" || perfil?.nav_style === "sidebar") {
+    return perfil.nav_style
+  }
+  return null
 }
 
 export async function updateNomeUsuario(nomeUsuario: string): Promise<void> {

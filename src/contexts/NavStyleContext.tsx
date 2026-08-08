@@ -6,35 +6,37 @@ import {
   useState,
   type ReactNode,
 } from "react"
+import {
+  readStoredNavStyle,
+  writeStoredNavStyle,
+  type StoredNavStyle,
+} from "@/lib/ui-preferences"
 
-export type NavStyle = "sidebar" | "top"
+export type NavStyle = StoredNavStyle
 
 interface NavStyleContextValue {
   navStyle: NavStyle
   setNavStyle: (style: NavStyle) => void
+  resetNavStyle: () => void
 }
-
-const STORAGE_KEY = "contabs-nav-style"
 
 const NavStyleContext = createContext<NavStyleContextValue | null>(null)
 
-function getStoredNavStyle(): NavStyle {
-  if (typeof window === "undefined") return "sidebar"
-  const stored = localStorage.getItem(STORAGE_KEY)
-  return stored === "top" ? "top" : "sidebar"
-}
-
 export function NavStyleProvider({ children }: { children: ReactNode }) {
-  const [navStyle, setNavStyleState] = useState<NavStyle>(getStoredNavStyle)
+  const [navStyle, setNavStyleState] = useState<NavStyle>(readStoredNavStyle)
 
   const setNavStyle = useCallback((style: NavStyle) => {
     setNavStyleState(style)
-    localStorage.setItem(STORAGE_KEY, style)
+    writeStoredNavStyle(style)
+  }, [])
+
+  const resetNavStyle = useCallback(() => {
+    setNavStyleState("sidebar")
   }, [])
 
   const value = useMemo(
-    () => ({ navStyle, setNavStyle }),
-    [navStyle, setNavStyle]
+    () => ({ navStyle, setNavStyle, resetNavStyle }),
+    [navStyle, setNavStyle, resetNavStyle]
   )
 
   return (

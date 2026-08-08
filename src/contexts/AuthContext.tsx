@@ -9,6 +9,7 @@ import {
 } from "react"
 import type { Session, User } from "@supabase/supabase-js"
 import { supabase } from "@/lib/supabase"
+import { clearUiPreferencesStorage } from "@/lib/ui-preferences"
 
 interface AuthContextValue {
   session: Session | null
@@ -45,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (event === "SIGNED_OUT") {
         setIsPasswordRecovery(false)
+        clearUiPreferencesStorage()
       }
     })
 
@@ -57,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut()
+    clearUiPreferencesStorage()
     setSession(null)
     setIsPasswordRecovery(false)
   }, [])
