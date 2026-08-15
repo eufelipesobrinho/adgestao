@@ -68,9 +68,9 @@ export function AppLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-background print:bg-white">
+    <div className="flex h-dvh min-h-0 bg-background print:h-auto print:bg-white">
       {useSidebar && (
-        <aside className="no-print hidden w-72 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex xl:w-80">
+        <aside className="no-print hidden h-full w-72 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex xl:w-80">
           <div className="flex h-28 items-center justify-center border-b border-sidebar-border px-4 py-3 xl:h-32">
             <Logo size="lg" />
           </div>
@@ -81,7 +81,7 @@ export function AppLayout() {
         </aside>
       )}
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <header className="no-print sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-border bg-card/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-card/80 lg:h-14 lg:px-6">
           <div className="flex min-w-0 flex-1 items-center gap-2">
             {useSidebar && (
@@ -133,7 +133,7 @@ export function AppLayout() {
 
         {useTopNav && <TopNavBar />}
 
-        <main className="flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-4 md:p-6 lg:p-8 print:overflow-visible print:p-0">
+        <main className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-4 md:p-6 lg:p-8 print:overflow-visible print:p-0">
           <Outlet />
         </main>
         <PwaPrompt />
